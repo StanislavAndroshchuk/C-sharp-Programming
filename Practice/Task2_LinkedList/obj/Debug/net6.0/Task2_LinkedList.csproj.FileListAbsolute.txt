@@ -1,0 +1,15 @@
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.csproj.AssemblyReference.cache
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.AssemblyInfoInputs.cache
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.AssemblyInfo.cs
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.csproj.CoreCompileInputs.cache
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\bin\Debug\net6.0\Task2_LinkedList.exe
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\bin\Debug\net6.0\Task2_LinkedList.deps.json
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\bin\Debug\net6.0\Task2_LinkedList.runtimeconfig.json
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\bin\Debug\net6.0\Task2_LinkedList.dll
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\bin\Debug\net6.0\Task2_LinkedList.pdb
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.dll
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\refint\Task2_LinkedList.dll
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.pdb
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\Task2_LinkedList.genruntimeconfig.cache
+C:\GitHub\C-sharp-Programming\Practice\Task2_LinkedList\obj\Debug\net6.0\ref\Task2_LinkedList.dll
