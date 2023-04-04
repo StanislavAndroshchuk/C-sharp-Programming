@@ -25,11 +25,11 @@ namespace Task2_Class {
 
     private static void Menu()
     {
-        string toReadFile = "../../../Order.json";
-        OrderCollection collection ;
+        string toReadFile = "../../../Restaurant.json";
+        OrderCollection<Restaurant> collection = new OrderCollection<Restaurant>();
         Dictionary<string, Delegate> fieldValid;
-        fieldValid = ValidDict.ToValidFields();
-        collection = WorkWithFile.ReadFromFile(toReadFile);
+        fieldValid = collection.GetValidFields();
+        collection.ReadFromFile(toReadFile);
         Console.WriteLine("Order collection is : \n");
         Console.WriteLine(collection);
         while (true)
@@ -49,12 +49,12 @@ Input
             string inputNum = Console.ReadLine()!;
             if (inputNum == "1")
             {
-                Order toAdd = new Order();
+                Restaurant toAdd = new Restaurant();
                 toAdd.ToWrite(collection.Count);
-                collection.Collection.Add(toAdd);
+                collection.Append(toAdd);
                 collection.Rewrite(toReadFile);
             }
-            if (inputNum == "2") // else if
+            else if (inputNum == "2") // else if
             {
                 Console.WriteLine("Input what do you want to search: ");
                 string lookingFor = Console.ReadLine()!;
@@ -73,10 +73,6 @@ Input
                         Console.WriteLine("Delete successful");
                         break;
                     }
-                    else
-                    {
-                        Console.WriteLine("Can't delete unexciting order by id " + getId + "\n");
-                    }
                 }
                 collection.Rewrite(toReadFile);
             }
@@ -86,31 +82,27 @@ Input
                 {
                     try
                     {
-                        Console.WriteLine("Input id of Order to edit: ");
+                        Console.WriteLine("Input id to edit: ");
                         string? getId = Console.ReadLine();
                         if (Validation.ValidInt(getId!))
                         {
                             if (collection.FindById(int.Parse(getId!)) != null)
                             {
-                                
-                                PrintParameter();
-                                string? keyElement = Console.ReadLine();
-                                if (ToLookDict.ContainsKey(keyElement!))
+                                Console.WriteLine("Input attribute to edit :");
+                                string elementToEdit = Console.ReadLine()!;
+                                if (fieldValid.ContainsKey(elementToEdit))
                                 {
-                                    int? index = collection.FindById(int.Parse(getId!));
-                                    Console.WriteLine($"[{keyElement}] : ");
-                                    string? elementToEdit = Console.ReadLine();
-                                    var value = fieldValid[ToLookDict[keyElement!]].DynamicInvoke(elementToEdit);
-                                    collection.ToEdit((int)index!,ToLookDict[keyElement!],value!);
-                                    //collection[(int)index!].GetType().GetProperty(toLookDict[keyElement!])!.SetValue(collection[(int)index], value);
+                                    Console.WriteLine("Input value :");
+                                    string value = Console.ReadLine()!; 
+                                    var validValue = fieldValid[elementToEdit].DynamicInvoke(value);
+                                    collection.ToEdit(int.Parse(getId!),elementToEdit,validValue!);
                                     collection.Rewrite(toReadFile);
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("There is no such key");
+                                    Console.WriteLine("There is no such attribute\n");
                                 }
-
                             }
                             else
                             {
@@ -119,7 +111,7 @@ Input
                         }
                         else
                         {
-                            Console.WriteLine($"{getId} have to be integer");
+                            Console.WriteLine($"{getId} have to be integer\n");
                         }
                     }
                     catch(Exception er)
@@ -131,21 +123,24 @@ Input
             else if (inputNum == "5")
             {
                 Console.WriteLine("Input element to sort by");
+                List<string> attributesName = collection.GetListOfPropertys();
                 while (true)
                 {
-                    PrintParameter();
-                    string? elementToSort = Console.ReadLine();
-                    if (ToLookDict.ContainsKey(elementToSort!))
+                    
+                    Console.WriteLine("[Attribute]: ");
+                    string elementToSort = Console.ReadLine()!;
+                    if (attributesName.Contains(elementToSort))
                     {
-                        collection.ToSort(ToLookDict[elementToSort!]);
+                        collection.ToSort(elementToSort);
                         Console.WriteLine("Sorted order collection is : \n");
                         Console.WriteLine(collection);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("There is no such paramether!");
+                        Console.WriteLine("There is no such attribute in class");
                     }
+                    
                 }
             }
             else if (inputNum == "6")

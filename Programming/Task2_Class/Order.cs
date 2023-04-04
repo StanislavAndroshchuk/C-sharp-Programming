@@ -1,9 +1,10 @@
 
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace Task2_Class
 {
-    public class Order
+    public class Order : IIdentifier, IValidators
     {
         private int _id;
         public int ID
@@ -14,7 +15,7 @@ namespace Task2_Class
 
         public OrderTypes OrderStatus { get; set; }
         public int Amount { get; set; }
-        public string Discount { get; set; }
+        public string Discount { get; set; } 
         public DateOnly OrderDate { get; set; }
         public DateOnly ShippedDate { get; set; }
         public string CustomerEmail { get; set; }
@@ -35,20 +36,42 @@ namespace Task2_Class
             CustomerEmail = customerEmail;
         }
 
-        public override string ToString()
+        /*public override string ToString()
         {
             return $"ID: {ID}\nOrder Status: {OrderStatus}\nAmount: {Amount}\nDiscount: {Discount}\nOrder Date: {OrderDate}\nShipped Date: {ShippedDate}\nCustomer Email: {CustomerEmail}";
+        }*/
+        public override string ToString()
+        {
+            string to_return = "";
+            foreach (PropertyInfo x in this.GetType().GetProperties())
+            {
+                to_return += x.Name + " - " + x.GetValue(this) + "\n"; 
+            }
+            return to_return;
+        }
+        public Dictionary<string, Delegate> ToValidFields()
+        {
+            Dictionary<string, Delegate> fieldValid = new Dictionary<string, Delegate>
+            {
+                {"ID", Validation.ValidPositiveInt},
+                {"OrderStatus", Validation.ValidOrder},
+                {"Amount", Validation.ValidPositiveInt},
+                {"Discount", Validation.ValidDiscount},
+                {"OrderDate", Validation.ValidDate},
+                {"ShippedDate", Validation.ValidBothDate},
+                {"CustomerEmail", Validation.ValidEmail}
+            };
+            return fieldValid;
+
         }
 
         public void ToWrite(int count)
         {
-            
-            
             Dictionary<string, Delegate> fieldValid;
-            fieldValid = ValidDict.ToValidFields();
+            fieldValid = ToValidFields();
             foreach (var element in fieldValid)
             {
-                while (true) //todo: пофіксити, зробити зміну , щоб потім можна було вийти з циклу
+                while (true) 
                 {
                     Console.Write($"[{element.Key}]: ");
                     if (element.Key == "OrderStatus")
@@ -56,9 +79,9 @@ namespace Task2_Class
                         Console.WriteLine("1 - Paid, 2 - NotPaid, 3 - Refunded-3");
                     }
 
-                    if (element.Key == "ID")
+                    if (element.Key == "ID") 
                     {
-                        Console.WriteLine($"{count+1}");
+                        Console.WriteLine($"{count+1}"); 
                     }
                     
                     try

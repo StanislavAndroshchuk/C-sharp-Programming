@@ -18,7 +18,18 @@ namespace Task2_Class
             }
         }
         // Validation of init
-
+        public static string ValidString(string text)
+        {
+            string regex = @"^[A-Za-z ]+$";
+            if (Regex.IsMatch(text, regex))
+            {
+                return text;
+            }
+            else
+            {
+                throw new Exception("Title is not valid!");
+            }
+        }
         public static string ValidEmail(string email)
         {
             string regex = @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b";

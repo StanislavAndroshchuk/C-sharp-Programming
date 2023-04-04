@@ -1,25 +1,36 @@
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Task2_Class
 {
-    public class OrderCollection
+    public interface IIdentifier
+    {
+        int ID { get; set; }
+    }
+
+    public interface IValidators
+    {
+        Dictionary<string, Delegate> ToValidFields();
+    }
+    public class OrderCollection<T> where T: class, IIdentifier, IValidators, new()
     {
         public string? SomeFile { get; set; }
-        public List<Order> Collection;
-    
+        public List<T> Collection;
         public OrderCollection()
         {
-            Collection = new List<Order>();
+            Collection = new List<T>();
+            
         }
     
-        public Order this[int x]
+        public T? this[int x]
         {
             get => Collection[x];
             set => Collection[x] = value;
         }
 
         public int Count => Collection.Count;
-    
+        
         public override string ToString()
         {
             string toPrint = "";
@@ -30,11 +41,23 @@ namespace Task2_Class
             return toPrint;
         }
     
-        public void Append(Order element)
+        public void Append(T element)
         {
-            Collection.Add(element);
+            Collection.Add(element!);
         }
-    
+        
+
+        public List<string> GetListOfPropertys()
+        {
+            T item = new T();
+            Type orderType = typeof(T);
+            List<string> fieldNames = new List<string>();
+            foreach (var propertyInfo in orderType.GetProperties())
+            {
+                fieldNames.Add(propertyInfo.Name);
+            }
+            return fieldNames;
+        }
         public string ToSearch(string lookingFor)
         {
             string toReturnFound = "";
@@ -57,37 +80,39 @@ namespace Task2_Class
         public void ToSort(string element)
         {
             if (element == "Discount")
-            {
-                Collection = Collection
-                    .OrderBy(x => {
-                        string strValue = x.GetType().GetProperty(element)!.GetValue(x)!.ToString()!;
-                        if (strValue.Length > 1) {
-                            strValue = strValue.Substring(0, strValue.Length - 1);
-                            if (int.TryParse(strValue, out int intValue)) {
-                                return intValue;
-                            }
-                        }
-                        // return a default value if the substring cannot be converted to an integer
-                        return 0;
-                    })
-                    .ToList();
-            }
-            else if (element != "CustomerEmail")
-            {
-                Collection = Collection.OrderBy(x => x.GetType().GetProperty(element)?.GetValue(x)).ToList();
-            }
-            else
-            {
-                Collection = Collection.OrderBy(x => x.CustomerEmail.ToLower()).ToList();
-            }
+           {
+               Collection = Collection
+                   .OrderBy(x => {
+                       string strValue = x.GetType().GetProperty(element)!.GetValue(x)!.ToString()!;
+                       if (strValue.Length > 1) {
+                           strValue = strValue.Substring(0, strValue.Length - 1);
+                           if (int.TryParse(strValue, out int intValue)) {
+                               return intValue;
+                           }
+                       }
+                       // return a default value if the substring cannot be converted to an integer
+                       return 0;
+                   })
+                   .ToList();
+           }
+           else if (typeof(T).GetProperty(element).PropertyType == typeof(string))
+           {
+               
+               Collection = Collection.OrderBy(x => x.GetType().GetProperty(element)?.GetValue(x)?.ToString()?.ToLower()).ToList();
+           }
+           else
+           {
+               Collection = Collection.OrderBy(x => x.GetType().GetProperty(element)?.GetValue(x)).ToList();
+           } 
+            
         }
-        public int? FindById(int getId)
+        public T? FindById(int getId)
         {
             for (int i = 0; i < Collection.Count; i++)
             { 
                 if (getId == Collection[i].ID)
                 {
-                    return i;
+                    return Collection[i];
                 }
             }
             return null;
@@ -106,6 +131,10 @@ namespace Task2_Class
                             Collection.RemoveAt(i);
                             Console.WriteLine("Order has been deleted\n");
                             return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Can't delete unexciting order by id " + getId + "\n");
                         }
                     }
                     else
@@ -126,10 +155,19 @@ namespace Task2_Class
     
         public void ToEdit(int getId, string attribute, object value)
         {
-            var propertyInfo = Collection[getId].GetType().GetProperty(attribute);
-            propertyInfo?.SetValue(Collection[getId], value);
+            T? classItem = FindById(getId);
+            PropertyInfo? someProperty = classItem!.GetType().GetProperty(attribute);
+            //var propertyInfo = classItem.GetType().GetProperty(attribute);
+            object toSet = Convert.ChangeType(value, someProperty?.PropertyType!);
+            someProperty?.SetValue(classItem, toSet);
         }
-    
+
+        public Dictionary<string, Delegate> GetValidFields()
+        {
+            T item = new T();
+            Dictionary<string, Delegate> fieldValid = item.ToValidFields();
+            return fieldValid;
+        }
         public void Rewrite(string path)
         {
             Collection = Collection.OrderBy(x => x.GetType().GetProperty("ID")?.GetValue(x)).ToList(); //s
@@ -138,12 +176,60 @@ namespace Task2_Class
     
             File.WriteAllText(path, jsonString);
         }
-    
+
+        public void ReadFromFile(string fileName)
+        {
+            string jsonString = File.ReadAllText(fileName);
+            List<JsonElement>? data = JsonSerializer.Deserialize<List<JsonElement>>(jsonString);
+            Dictionary<string, Delegate> fieldValid = GetValidFields();
+            foreach (JsonElement element in data!)
+            {
+                bool passed = true;
+                
+                for (int i = 0; i < fieldValid.Count; i++)
+                {   
+                    
+                    try
+                    {
+                        string tempKey = fieldValid.Keys.ElementAt(i); // string?
+                        
+                        if (tempKey == "ShippedDate")
+                        {
+                            fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString(),
+                                element.GetProperty("OrderDate").ToString() );
+                        }
+                        else
+                        {
+                            fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString()); //
+                        }
+                        
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.InnerException?.Message);
+                        passed = false;
+                    }
+                }
+
+                
+                
+                if (passed)
+                {
+                    T tempOrder = JsonSerializer.Deserialize<T>(element)!;
+                    Collection.Add(tempOrder);
+                }
+                else
+                {
+                    Console.WriteLine("Previous Order had problems during validation.");
+                }
+            }
+            
+        }
         
     }
-    public abstract class WorkWithFile
+    /*public abstract class WorkWithFile
     {
-        public static OrderCollection ReadFromFile(string fileName)
+        public static OrderCollection<T> ReadFromFile(string fileName)
         {
             OrderCollection collection = new OrderCollection();
             string jsonString = File.ReadAllText(fileName);
@@ -175,7 +261,7 @@ namespace Task2_Class
                             else
                             {
                                 fieldValid[temp_key]?.DynamicInvoke(element.GetProperty(temp_key).ToString());
-                            }*/
+                            }#1#
                             
                         }
                         
@@ -200,7 +286,7 @@ namespace Task2_Class
     
             return collection;
         }
-    }
+    }*/
 }
 
 
