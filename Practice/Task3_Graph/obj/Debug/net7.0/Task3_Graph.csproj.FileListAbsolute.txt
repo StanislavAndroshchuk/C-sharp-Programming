@@ -1,0 +1,15 @@
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\bin\Debug\net7.0\Task3_Graph.exe
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\bin\Debug\net7.0\Task3_Graph.deps.json
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\bin\Debug\net7.0\Task3_Graph.runtimeconfig.json
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\bin\Debug\net7.0\Task3_Graph.dll
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\bin\Debug\net7.0\Task3_Graph.pdb
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.csproj.AssemblyReference.cache
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.AssemblyInfoInputs.cache
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.AssemblyInfo.cs
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.csproj.CoreCompileInputs.cache
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.dll
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\refint\Task3_Graph.dll
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.pdb
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\Task3_Graph.genruntimeconfig.cache
+C:\GitHub\C-sharp-Programming\Practice\Task3_Graph\obj\Debug\net7.0\ref\Task3_Graph.dll

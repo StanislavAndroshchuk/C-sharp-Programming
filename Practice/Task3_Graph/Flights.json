@@ -1,0 +1,38 @@
+﻿[
+  {
+    "Id" : 1,
+    "DepartureCity" : "Paris",
+    "ArrivalCity" : "London",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 2,
+    "DepartureCity" : "Paris",
+    "ArrivalCity" : "Berlin",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T21:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 3,
+    "DepartureCity" : "London",
+    "ArrivalCity" : "Berlin",
+    "DepartureDatetime" : "2023-04-07T14:00:00",
+    "ArrivalDatetime" : "2023-04-07T21:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 4,
+    "DepartureCity" : "Paris",
+    "ArrivalCity" : "Berlin",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T21:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 499.99
+  }
+]
