@@ -108,23 +108,24 @@ namespace ModuleTestWork
 
             return mostBookedHours;
         }
-        /*public static bool CanAddBooking(List<Booking> bookings, Booking newBooking)
+        public static bool CanAddBooking(List<Booking> bookings, Booking newBooking)
         {
             int maxSeats = 15;
-            TimeSpan minDuration = TimeSpan.FromMinutes(30);
-            TimeSpan maxDuration = TimeSpan.FromMinutes(90);
-
-            // Check duration constraints
-            TimeSpan duration = newBooking.EndTime - newBooking.StartTime;
+            int minDuration = 30;
+            int maxDuration = 90;
+            
+            /*TimeSpan duration = newBooking.EndTime - newBooking.StartTime;*/
+            int durationhour = newBooking.EndTime.Hour - newBooking.StartTime.Hour;
+            int durationminutes =newBooking.EndTime.Minute - newBooking.StartTime.Minute;
+            int duration = durationminutes + (durationhour * 60);
             if (duration < minDuration || duration > maxDuration)
             {
                 return false;
             }
-
-            // Check overlapping bookings
+            
             foreach (var booking in bookings)
             {
-                if (newBooking.StartTime < booking.EndTime && newBooking.EndTime > booking.StartTime)
+                if (newBooking.StartTime.Hour < booking.EndTime.Hour && newBooking.EndTime.Hour > booking.StartTime.Hour && newBooking.StartTime.Minute < booking.EndTime.Minute && newBooking.EndTime.Minute > booking.StartTime.Minute)
                 {
                     int totalSeats = newBooking.NoOfPeople + booking.NoOfPeople;
                     if (totalSeats > maxSeats)
@@ -135,7 +136,7 @@ namespace ModuleTestWork
             }
 
             return true;
-        }*/
+        }
         
     }    
 }

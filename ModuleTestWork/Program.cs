@@ -44,7 +44,10 @@ Input
             {
                 Booking toAdd = new Booking();
                 toAdd.ToWrite(collection.Collection.Count);
-                collection.Append(toAdd);
+                if (CollectionBooking.CanAddBooking(collection.Collection, toAdd))
+                {
+                    collection.Append(toAdd);
+                }
             }
             else if (inputNum == "4" && readed)
             {
