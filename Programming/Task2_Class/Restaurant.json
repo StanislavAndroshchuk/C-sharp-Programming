@@ -2,26 +2,36 @@
   {
     "ID": 1,
     "Workers": 2,
-    "Title": "Flo"
+    "Url": "https://github.com/StanislavAndroshchuk/C-sharp-Programming/pull/7",
+    "Title": "Flo",
+    "Date": "2023-04-07T13:00:00"
   },
   {
     "ID": 2,
     "Workers": 21,
-    "Title": "Rkos"
+    "Url": "https://github.com/StanislavAndroshchuk/C-sharp-Programming/pull/7",
+    "Title": "Rkos",
+    "Date": "2023-04-07T12:00:00"
   },
   {
     "ID": 3,
     "Workers": 22,
-    "Title": "PabloS"
+    "Url": "https://github.com/StanislavAndroshchuk/C-sharp-Programming/pull/7",
+    "Title": "PabloS",
+    "Date": "2022-04-07T13:00:00"
   },
   {
     "ID": 4,
     "Workers": 12,
-    "Title": "Los Pollos Hermanos"
+    "Url": "https://github.com/StanislavAndroshchuk/C-sharp-Programming/pull/7",
+    "Title": "Los Pollos Hermanos",
+    "Date": "2022-04-07T13:00:00"
   },
   {
     "ID": 5,
     "Workers": 4,
-    "Title": "SDSS"
+    "Url": "https://github.com/StanislavAndroshchuk/C-sharp-Programming/pull/7",
+    "Title": "SDSS",
+    "Date": "2022-04-07T13:00:00"
   }
 ]

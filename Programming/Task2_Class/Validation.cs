@@ -30,6 +30,18 @@ namespace Task2_Class
                 throw new Exception("Title is not valid!");
             }
         }
+        public static string ValidUrl(string url)
+        {
+            string regex = @"^(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$";
+            if (Regex.IsMatch(url, regex))
+            {
+                return url;
+            }
+            else
+            {
+                throw new Exception("URL is not valid!");
+            }
+        }
         public static string ValidEmail(string email)
         {
             string regex = @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b";
@@ -128,6 +140,18 @@ namespace Task2_Class
         {
             
             if (DateOnly.TryParse(date, out DateOnly result))
+            {
+                return result;
+            }
+            else
+            {
+                throw new Exception("Date is not valid!");
+            }
+        }
+        public static DateTime ValidDateTime(string date)
+        {
+            
+            if (DateTime.TryParse(date, out DateTime result))
             {
                 return result;
             }

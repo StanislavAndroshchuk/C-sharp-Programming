@@ -6,18 +6,23 @@ namespace Task2_Class
     {
         public int ID { get; set; }
         public int Workers { get; set; }
+        public string Url { get; set; }
         public string Title { get; set; }
+        public DateTime Date { get; set; }
+        
 
         public Restaurant()
         {
             
         }
 
-        public Restaurant(int id, int workers, string name)
+        public Restaurant(int id, int workers,string url, string name, DateTime date)
         {
             ID = id;
             Workers = workers;
+            Url = url;
             Title = name;
+            Date = date;
         }
         public Dictionary<string, Delegate> ToValidFields()
         {
@@ -25,7 +30,9 @@ namespace Task2_Class
             {
                 {"ID", Validation.ValidPositiveInt},
                 {"Workers", Validation.ValidPositiveInt},
+                {"Url", Validation.ValidUrl},
                 {"Title", Validation.ValidString},
+                {"Date", Validation.ValidDateTime}
             };
             return fieldValid;
 
