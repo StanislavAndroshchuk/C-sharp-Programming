@@ -1,0 +1,15 @@
+C:\GitHub\C-sharp-Programming\ModuleTestWork\bin\Debug\net7.0\ModuleTestWork.exe
+C:\GitHub\C-sharp-Programming\ModuleTestWork\bin\Debug\net7.0\ModuleTestWork.deps.json
+C:\GitHub\C-sharp-Programming\ModuleTestWork\bin\Debug\net7.0\ModuleTestWork.runtimeconfig.json
+C:\GitHub\C-sharp-Programming\ModuleTestWork\bin\Debug\net7.0\ModuleTestWork.dll
+C:\GitHub\C-sharp-Programming\ModuleTestWork\bin\Debug\net7.0\ModuleTestWork.pdb
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.csproj.AssemblyReference.cache
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.AssemblyInfoInputs.cache
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.AssemblyInfo.cs
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.csproj.CoreCompileInputs.cache
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.dll
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\refint\ModuleTestWork.dll
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.pdb
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ModuleTestWork.genruntimeconfig.cache
+C:\GitHub\C-sharp-Programming\ModuleTestWork\obj\Debug\net7.0\ref\ModuleTestWork.dll
