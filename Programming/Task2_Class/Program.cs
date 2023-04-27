@@ -25,14 +25,32 @@ namespace Task2_Class {
 
     private static void Menu()
     {
-        string toReadFile = "../../../Restaurant.json";
-        OrderCollection<Restaurant> collection = new OrderCollection<Restaurant>();
+        string toReadFile = "../../../Order.json";
+        OrderCollection<Order> collection = new OrderCollection<Order>();
         Dictionary<string, Delegate> fieldValid;
         fieldValid = collection.GetValidFields();
         collection.ReadFromFile(toReadFile);
         Console.WriteLine("Order collection is : \n");
         Console.WriteLine(collection);
-        while (true)
+        User adminUser = new User("Bebra", "Bebro", "lOl@gmail.com", Roles.Admin, "admin");
+        User bebraUser = new User("Bebros", "Bebras", "olo@gmail.com", Roles.Customer, "123123");
+        LoggerProxy<Order> adminProxy =
+            new LoggerProxy<Order>(adminUser, new PermissionProxy<Order>(adminUser, collection));
+        LoggerProxy<Order> bebraProxy =
+            new LoggerProxy<Order>(bebraUser, new PermissionProxy<Order>(bebraUser, collection));
+        try
+        {
+            adminProxy.ViewById(1);
+            bebraProxy.Search("1");
+            Order aa = new Order();
+            aa.ToWrite(12);
+            bebraProxy.Create(aa);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        /*while (true)
         {
             Console.WriteLine(@"
 ----Menu----
@@ -152,7 +170,7 @@ Input
             {
                 break;
             }
-        }
+        }*/
     }
 
     public static void Main(string[] args)

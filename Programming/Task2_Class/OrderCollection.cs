@@ -1,6 +1,8 @@
 using System.Text.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reflection;
+using Newtonsoft.Json.Serialization;
 
 namespace Task2_Class
 {
@@ -13,24 +15,20 @@ namespace Task2_Class
     {
         Dictionary<string, Delegate> ToValidFields();
     }
-    public class OrderCollection<T> where T: class, IIdentifier, IValidators, new()
+    public class OrderCollection<T> : IUserAction<T> where T: class, IIdentifier, IValidators, new()
     {
-        public string? SomeFile { get; set; }
         public List<T> Collection;
         public OrderCollection()
         {
             Collection = new List<T>();
             
         }
-    
         public T? this[int x]
         {
             get => Collection[x];
             set => Collection[x] = value;
         }
-
         public int Count => Collection.Count;
-        
         public override string ToString()
         {
             string toPrint = "";
@@ -40,13 +38,10 @@ namespace Task2_Class
             }
             return toPrint;
         }
-    
         public void Append(T element)
         {
             Collection.Add(element!);
         }
-        
-
         public List<string> GetListOfPropertys()
         {
             T item = new T();
@@ -58,25 +53,6 @@ namespace Task2_Class
             }
             return fieldNames;
         }
-        public string ToSearch(string lookingFor)
-        {
-            string toReturnFound = "";
-            toReturnFound += "Looking for " + lookingFor + ":\n\n";
-            foreach (var order in Collection)
-            {
-                foreach (var valueAttr in order.GetType().GetProperties())
-                {
-                    if (valueAttr.GetValue(order)!.ToString()!.Contains(lookingFor))
-                    {
-                        toReturnFound += "Order with Id " + order.ID + " have coincidence:\n";
-                        toReturnFound += order + "\n";
-                        break;
-                    }
-                }
-            }
-            return toReturnFound;
-        }
-    
         public void ToSort(string element)
         {
             if (element == "Discount")
@@ -117,7 +93,6 @@ namespace Task2_Class
             }
             return null;
         }
-    
         public bool DeleteById(string getId)
         {
             for (int i = 0; i < Collection.Count; i++)
@@ -152,16 +127,13 @@ namespace Task2_Class
 
             return false;
         }
-    
         public void ToEdit(int getId, string attribute, object value)
         {
             T? classItem = FindById(getId);
             PropertyInfo? someProperty = classItem!.GetType().GetProperty(attribute);
-            //var propertyInfo = classItem.GetType().GetProperty(attribute);
             object toSet = Convert.ChangeType(value, someProperty?.PropertyType!);
             someProperty?.SetValue(classItem, toSet);
         }
-
         public Dictionary<string, Delegate> GetValidFields()
         {
             T item = new T();
@@ -176,7 +148,6 @@ namespace Task2_Class
     
             File.WriteAllText(path, jsonString);
         }
-
         public void ReadFromFile(string fileName)
         {
             string jsonString = File.ReadAllText(fileName);
@@ -225,68 +196,96 @@ namespace Task2_Class
             }
             
         }
-        
-    }
-    /*public abstract class WorkWithFile
-    {
-        public static OrderCollection<T> ReadFromFile(string fileName)
+        public List<T> ViewList()
         {
-            OrderCollection collection = new OrderCollection();
-            string jsonString = File.ReadAllText(fileName);
-            List<JsonElement>? data = JsonSerializer.Deserialize<List<JsonElement>>(jsonString);
-            Dictionary<string, Delegate> fieldValid = ValidDict.ToValidFields();
-            foreach (JsonElement element in data!)
+            return Collection;
+        }
+        public T ViewById(int id)
+        {
+            return Collection.FirstOrDefault(s => s.ID == id)!;
+        }
+        public string ToSearch(string lookingFor)
+        {
+            string toReturnFound = "";
+            toReturnFound += "Looking for " + lookingFor + ":\n\n";
+            foreach (var order in Collection)
             {
-                bool passed = true;
-                for (int i = 0; i < fieldValid.Count; i++)
-                {   
-                    
-                    try
-                    {
-                        string tempKey = fieldValid.Keys.ElementAt(i); // string?
-                        
-                        if (tempKey == "ShippedDate")
-                        {
-                            fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString(),
-                                element.GetProperty("OrderDate").ToString() );
-                        }
-                        else
-                        {
-                            fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString());
-                            /*if (fieldValid[temp_key] == Validation.ValidPositiveInt)
-                            {
-                                fieldValid[temp_key]?.DynamicInvoke(element.GetProperty(temp_key));
-                                
-                            }
-                            else
-                            {
-                                fieldValid[temp_key]?.DynamicInvoke(element.GetProperty(temp_key).ToString());
-                            }#1#
-                            
-                        }
-                        
-                    }
-                    catch(Exception e)
-                    {
-                        Console.WriteLine(e.InnerException?.Message);
-                        passed = false;
-                    }
-                }
-
-                if (passed)
+                foreach (var valueAttr in order.GetType().GetProperties())
                 {
-                    Order tempOrder = JsonSerializer.Deserialize<Order>(element)!;
-                    collection.Append(tempOrder);
-                }
-                else
-                {
-                    Console.WriteLine("Previous Order had problems during validation.");
+                    if (valueAttr.GetValue(order)!.ToString()!.Contains(lookingFor))
+                    {
+                        toReturnFound += "Order with Id " + order.ID + " have coincidence:\n";
+                        toReturnFound += order + "\n";
+                        break;
+                    }
                 }
             }
-    
-            return collection;
+            return toReturnFound;
         }
-    }*/
+        public List<T> Search(string query)
+        {
+            List<T> toReturnFound = new List<T>();
+            foreach (var order in Collection)
+            {
+                foreach (var valueAttr in order.GetType().GetProperties())
+                {
+                    if (valueAttr.GetValue(order)!.ToString()!.Contains(query))
+                    {
+                        toReturnFound.Add(order);
+                        break;
+                    }
+                }
+            }
+            return toReturnFound;
+        }
+        public List<T> Sort(string sortBy)
+        {
+            List<T> sortedCollection = Collection;
+            if (sortBy == "Discount")
+            {
+                sortedCollection = sortedCollection
+                    .OrderBy(x => {
+                        string strValue = x.GetType().GetProperty(sortBy)!.GetValue(x)!.ToString()!;
+                        if (strValue.Length > 1) {
+                            strValue = strValue.Substring(0, strValue.Length - 1);
+                            if (int.TryParse(strValue, out int intValue)) {
+                                return intValue;
+                            }
+                        }
+                        // return a default value if the substring cannot be converted to an integer
+                        return 0;
+                    })
+                    .ToList();
+            }
+            else if (typeof(T).GetProperty(sortBy)!.PropertyType == typeof(string))
+            {
+               
+                sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)?.ToString()?.ToLower()).ToList();
+            }
+            else
+            {
+                sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)).ToList();
+            }
+
+            return sortedCollection;
+        }
+
+        public T Create(T element)
+        {
+            Console.WriteLine("asda");
+            return element;
+        }
+
+        public T Edit(T element)
+        {
+            return element;
+        }
+
+        public void Delete(int id)
+        {
+            return;
+        }
+    }
 }
 
 
