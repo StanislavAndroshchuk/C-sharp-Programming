@@ -27,7 +27,7 @@ namespace Task2_Class
             }
             else
             {
-                throw new Exception("Title is not valid!");
+                throw new Exception("Element is not valid string!");
             }
         }
         public static string ValidUrl(string url)
@@ -148,6 +148,35 @@ namespace Task2_Class
                 throw new Exception("Date is not valid!");
             }
         }
+        public static bool IsValidPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new Exception("Password is empty or null!");
+            }
+            if (password.Length < 8)
+            {
+                throw new Exception("Password must be at least 8 characters long!");
+            }
+            if (!Regex.IsMatch(password, @"\d"))
+            {
+                throw new Exception("Password must contain at least one digit!");
+            }
+            if (!Regex.IsMatch(password, @"[A-Z]"))
+            {
+                throw new Exception("Password must contain at least one uppercase letter!");
+            }
+            if (!Regex.IsMatch(password, @"[a-z]"))
+            {
+                throw new Exception("Password must contain at least one lowercase letter!");
+            }
+            if (!Regex.IsMatch(password, @"[!@#$%^&*()_+=\[{\]};:<>|./?,-]"))
+            {
+                throw new Exception("Password must contain at least one special character!");
+            }
+            return true;
+        }
+
         public static DateTime ValidDateTime(string date)
         {
             

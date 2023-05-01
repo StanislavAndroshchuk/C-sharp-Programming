@@ -1,8 +1,6 @@
-using System.Text.Json;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Reflection;
-using Newtonsoft.Json.Serialization;
 
 namespace Task2_Class
 {
@@ -26,7 +24,7 @@ namespace Task2_Class
         public T? this[int x]
         {
             get => Collection[x];
-            set => Collection[x] = value;
+            set => Collection[x] = value!;
         }
         public int Count => Collection.Count;
         public override string ToString()
@@ -53,35 +51,6 @@ namespace Task2_Class
             }
             return fieldNames;
         }
-        public void ToSort(string element)
-        {
-            if (element == "Discount")
-           {
-               Collection = Collection
-                   .OrderBy(x => {
-                       string strValue = x.GetType().GetProperty(element)!.GetValue(x)!.ToString()!;
-                       if (strValue.Length > 1) {
-                           strValue = strValue.Substring(0, strValue.Length - 1);
-                           if (int.TryParse(strValue, out int intValue)) {
-                               return intValue;
-                           }
-                       }
-                       // return a default value if the substring cannot be converted to an integer
-                       return 0;
-                   })
-                   .ToList();
-           }
-           else if (typeof(T).GetProperty(element).PropertyType == typeof(string))
-           {
-               
-               Collection = Collection.OrderBy(x => x.GetType().GetProperty(element)?.GetValue(x)?.ToString()?.ToLower()).ToList();
-           }
-           else
-           {
-               Collection = Collection.OrderBy(x => x.GetType().GetProperty(element)?.GetValue(x)).ToList();
-           } 
-            
-        }
         public T? FindById(int getId)
         {
             for (int i = 0; i < Collection.Count; i++)
@@ -92,47 +61,6 @@ namespace Task2_Class
                 }
             }
             return null;
-        }
-        public bool DeleteById(string getId)
-        {
-            for (int i = 0; i < Collection.Count; i++)
-            {
-                try
-                {
-                    if (int.TryParse(getId, out int _)) // try catch
-                    {
-                        if (Collection[i].ID == int.Parse(getId))
-                        {
-                            Collection.RemoveAt(i);
-                            Console.WriteLine("Order has been deleted\n");
-                            return true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Can't delete unexciting order by id " + getId + "\n");
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception($"{getId} have to be integer");
-                    }
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine(e.InnerException?.Message);
-                    return false;
-                }
-                
-            }
-
-            return false;
-        }
-        public void ToEdit(int getId, string attribute, object value)
-        {
-            T? classItem = FindById(getId);
-            PropertyInfo? someProperty = classItem!.GetType().GetProperty(attribute);
-            object toSet = Convert.ChangeType(value, someProperty?.PropertyType!);
-            someProperty?.SetValue(classItem, toSet);
         }
         public Dictionary<string, Delegate> GetValidFields()
         {
@@ -198,29 +126,28 @@ namespace Task2_Class
         }
         public List<T> ViewList()
         {
-            return Collection;
+            if (Collection.Count != 0)
+            {
+                return Collection;
+            }
+            else
+            {
+                throw new Exception("List is empty!");
+            }
+            
         }
         public T ViewById(int id)
         {
-            return Collection.FirstOrDefault(s => s.ID == id)!;
-        }
-        public string ToSearch(string lookingFor)
-        {
-            string toReturnFound = "";
-            toReturnFound += "Looking for " + lookingFor + ":\n\n";
-            foreach (var order in Collection)
+            var toCheck = Collection.FirstOrDefault(s => s.ID == id);
+            if (toCheck != null)
             {
-                foreach (var valueAttr in order.GetType().GetProperties())
-                {
-                    if (valueAttr.GetValue(order)!.ToString()!.Contains(lookingFor))
-                    {
-                        toReturnFound += "Order with Id " + order.ID + " have coincidence:\n";
-                        toReturnFound += order + "\n";
-                        break;
-                    }
-                }
+                return toCheck;
             }
-            return toReturnFound;
+            else
+            {
+                throw new Exception("There is no such elements by this id!");
+            }
+           
         }
         public List<T> Search(string query)
         {
@@ -236,54 +163,95 @@ namespace Task2_Class
                     }
                 }
             }
+            if (toReturnFound.Count == 0)
+            {
+                throw new Exception("Cannot found by this paramether");
+            }
             return toReturnFound;
         }
         public List<T> Sort(string sortBy)
         {
-            List<T> sortedCollection = Collection;
-            if (sortBy == "Discount")
+            List<string> listOfParam = GetListOfPropertys();
+            if (listOfParam.Contains(sortBy))
             {
-                sortedCollection = sortedCollection
-                    .OrderBy(x => {
-                        string strValue = x.GetType().GetProperty(sortBy)!.GetValue(x)!.ToString()!;
-                        if (strValue.Length > 1) {
-                            strValue = strValue.Substring(0, strValue.Length - 1);
-                            if (int.TryParse(strValue, out int intValue)) {
-                                return intValue;
+                List<T> sortedCollection = Collection;
+                if (sortBy == "Discount")
+                {
+                    sortedCollection = sortedCollection
+                        .OrderBy(x => {
+                            string strValue = x.GetType().GetProperty(sortBy)!.GetValue(x)!.ToString()!;
+                            if (strValue.Length > 1) {
+                                strValue = strValue.Substring(0, strValue.Length - 1);
+                                if (int.TryParse(strValue, out int intValue)) {
+                                    return intValue;
+                                }
                             }
-                        }
-                        // return a default value if the substring cannot be converted to an integer
-                        return 0;
-                    })
-                    .ToList();
-            }
-            else if (typeof(T).GetProperty(sortBy)!.PropertyType == typeof(string))
-            {
+                            return 0;
+                        })
+                        .ToList();
+                }
+                else if (typeof(T).GetProperty(sortBy)!.PropertyType == typeof(string))
+                {
                
-                sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)?.ToString()?.ToLower()).ToList();
+                    sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)?.ToString()?.ToLower()).ToList();
+                }
+                else
+                {
+                    sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)).ToList();
+                }
+
+                return sortedCollection;
             }
             else
             {
-                sortedCollection = sortedCollection.OrderBy(x => x.GetType().GetProperty(sortBy)?.GetValue(x)).ToList();
+                throw new Exception("There is no such parameter to sort by!");
             }
-
-            return sortedCollection;
+            
         }
 
         public T Create(T element)
         {
-            Console.WriteLine("asda");
+            Collection.Add(element);
             return element;
         }
 
-        public T Edit(T element)
+        public T Edit(int getId, string attribute, object value)
         {
-            return element;
+            var classItem = FindById(getId);
+            if (classItem != null)
+            {
+                var fieldValid = GetValidFields();
+                if (fieldValid.ContainsKey(attribute))
+                {
+                    
+                    PropertyInfo? someProperty = classItem!.GetType().GetProperty(attribute);
+                    object toSet = Convert.ChangeType(value, someProperty?.PropertyType!);
+                    someProperty?.SetValue(classItem, toSet);
+                    return classItem;
+                }
+                else
+                {
+                    throw new Exception("Cant edit by this attribute!");
+                }
+            }
+            else
+            {
+                throw new Exception("There is no such element by this id");
+            }
+            
         }
 
-        public void Delete(int id)
+        public T Delete(int id)
         {
-            return;
+            var deleteElement = FindById(id);
+            if (deleteElement != null)
+            {
+                Collection.RemoveAt(id-1);
+                Console.WriteLine("Order has been deleted\n");
+                return deleteElement;
+            }
+
+            throw new Exception("There's no such element by id");
         }
     }
 }

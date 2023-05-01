@@ -1,178 +1,197 @@
 ﻿
-namespace Task2_Class { 
-    public static class Program
+namespace Task2_Class
 {
-    private static readonly Dictionary<string, string> ToLookDict = new Dictionary<string, string>
-        {
-            {"St", "OrderStatus"},
-            {"Am", "Amount"},
-            {"Dis", "Discount"},
-            {"OrDa", "OrderDate"},
-            {"ShDa", "ShippedDate"},
-            {"Em", "CustomerEmail"}
-        };
-
-    private static void PrintParameter()
+    public static class Program
     {
-        Console.WriteLine("Choose parameter");
-        Console.WriteLine("St - Status");
-        Console.WriteLine("Am - Amount");
-        Console.WriteLine("Dis - Discount");
-        Console.WriteLine("OrDa - Order date");
-        Console.WriteLine("ShDa - Shipped date");
-        Console.WriteLine("Em - Email\n");
-    }
-
-    private static void Menu()
-    {
-        string toReadFile = "../../../Order.json";
-        OrderCollection<Order> collection = new OrderCollection<Order>();
-        Dictionary<string, Delegate> fieldValid;
-        fieldValid = collection.GetValidFields();
-        collection.ReadFromFile(toReadFile);
-        Console.WriteLine("Order collection is : \n");
-        Console.WriteLine(collection);
-        User adminUser = new User("Bebra", "Bebro", "lOl@gmail.com", Roles.Admin, "admin");
-        User bebraUser = new User("Bebros", "Bebras", "olo@gmail.com", Roles.Customer, "123123");
-        LoggerProxy<Order> adminProxy =
-            new LoggerProxy<Order>(adminUser, new PermissionProxy<Order>(adminUser, collection));
-        LoggerProxy<Order> bebraProxy =
-            new LoggerProxy<Order>(bebraUser, new PermissionProxy<Order>(bebraUser, collection));
-        try
+        private static void Menu()
         {
-            adminProxy.ViewById(1);
-            bebraProxy.Search("1");
-            Order aa = new Order();
-            aa.ToWrite(12);
-            bebraProxy.Create(aa);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-        /*while (true)
-        {
-            Console.WriteLine(@"
-----Menu----
-Input 
-1 to Add
-2 to Search
-3 to Delete
-4 to Edit
-5 to Sort
-6 to Print Json
-7 to Exit/Quit
-                ");
-            Console.WriteLine("Choose option");
-            string inputNum = Console.ReadLine()!;
-            if (inputNum == "1")
+            Logging:
+            User currentUser = new User();
+            OrderCollection<Order> collection = new OrderCollection<Order>();
+            string pathToCollection = "../../../Order.json";
+            Console.Clear();
+            Console.WriteLine("--Menu--");
+            Console.WriteLine("1.Sign in");
+            Console.WriteLine("2.Sign up");
+            Console.WriteLine("3.Exit");
+            Console.Write($"? : ");
+            string input = Console.ReadLine()!;
+            if (input == "1")
             {
-                Restaurant toAdd = new Restaurant();
-                toAdd.ToWrite(collection.Count);
-                collection.Append(toAdd);
-                collection.Rewrite(toReadFile);
-            }
-            else if (inputNum == "2") // else if
-            {
-                Console.WriteLine("Input what do you want to search: ");
-                string lookingFor = Console.ReadLine()!;
-                string toPrint = collection.ToSearch(lookingFor);
-                Console.WriteLine(toPrint);
-            }
-            else if (inputNum == "3")
-            {
-                while (true)
+                currentUser = MenuFunction.Login();
+                if (currentUser.HasDefaultValues())
                 {
-                    Console.WriteLine("Input id of Order to delete: ");
-                    string getId = Console.ReadLine()!;
-                    
-                    if (collection.DeleteById(getId))
-                    {
-                        Console.WriteLine("Delete successful");
-                        break;
-                    }
+                    goto Logging;
                 }
-                collection.Rewrite(toReadFile);
             }
-            else if (inputNum == "4")
+
+            else if (input == "2")
             {
-                while (true)
+                currentUser = MenuFunction.Registration();
+            }
+            else if (input != "3")
+            {
+                goto Logging;
+            }
+            else
+            {
+                return;
+            }
+
+            collection.ReadFromFile(pathToCollection);
+            LoggerProxy<Order> userProxy =
+                new LoggerProxy<Order>(currentUser, new PermissionProxy<Order>(currentUser, collection));
+            string option;
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("\n---Menu---");
+                Console.WriteLine("1.View list");
+                Console.WriteLine("2.View list by id");
+                Console.WriteLine("3.Sort list");
+                Console.WriteLine("4.Search in list");
+                if (currentUser.Role == Roles.Admin)
                 {
-                    try
+                    Console.WriteLine("5.Delete element in list");
+                    Console.WriteLine("6.Add element in list");
+                    Console.WriteLine("7.Edit element in list");
+                    Console.WriteLine("8.Sign out");
+                }
+                else
+                {
+                    Console.WriteLine("5.Sign out");
+                }
+                
+                Console.Write("? : ");
+                option = Console.ReadLine()!;
+                Console.Clear();
+                try
+                {
+                    if (option == "1")
                     {
-                        Console.WriteLine("Input id to edit: ");
-                        string? getId = Console.ReadLine();
-                        if (Validation.ValidInt(getId!))
+                        var item = userProxy.ViewList();
+                        Console.WriteLine("Your list:");
+                        foreach (var element in item)
                         {
-                            if (collection.FindById(int.Parse(getId!)) != null)
+                            Console.WriteLine(element);
+                        }
+                    }
+                    else if (option == "2")
+                    {
+                        Console.Write("Id : ");
+                        string line = Console.ReadLine()!;
+                        int id = Validation.ValidPositiveInt(line);
+                        var item = userProxy.ViewById(id);
+                        Console.WriteLine($"Found by id {id}");
+                        Console.WriteLine(item);
+                    }
+                    else if (option == "3")
+                    {
+                        Console.Write("Sort by attribute : ");
+                        string attribute = Console.ReadLine()!;
+                        var item = userProxy.Sort(attribute);
+                        Console.WriteLine("Sorted List:");
+                        foreach (var element in item)
+                        {
+                            Console.WriteLine(element);
+                        }
+                        
+                    }
+                    else if (option == "4")
+                    {
+                        Console.Write("Search by: ");
+                        string attribute = Console.ReadLine()!;
+                        var item = userProxy.Search(attribute);
+                        Console.WriteLine("--Found element(s)--:");
+                        foreach (var element in item)
+                        {
+                            Console.WriteLine(element);
+                        }
+                    }
+
+                    else if (currentUser.Role == Roles.Admin)
+                    {
+                        if (option == "5")
+                        {
+                            Console.Write("Delete by id: ");
+                            string line = Console.ReadLine()!;
+                            int id = Validation.ValidPositiveInt(line);
+                            userProxy.Delete(id);
+                            collection.Rewrite(pathToCollection);
+                        }
+                        else if (option == "6")
+                        {
+                            Console.WriteLine("Input new element : ");
+                            Order item = new Order();
+                            item.ToWrite(collection.Count);
+                            userProxy.Create(item);
+                            collection.Rewrite(pathToCollection);
+                        }
+                        else if (option == "7")
+                        {
+                            var validFields = collection.GetValidFields();
+                            Console.Write("Id element to edit: ");
+                            string id = Console.ReadLine()!;
+                            int validId = Validation.ValidPositiveInt(id);
+                            Console.Write("Attribute of element to edit: ");
+                            string attribute = Console.ReadLine()!;
+                            Console.Write("Value to change: ");
+                            string value = Console.ReadLine()!;
+                            if (validFields.ContainsKey(attribute))
                             {
-                                Console.WriteLine("Input attribute to edit :");
-                                string elementToEdit = Console.ReadLine()!;
-                                if (fieldValid.ContainsKey(elementToEdit))
+                                try
                                 {
-                                    Console.WriteLine("Input value :");
-                                    string value = Console.ReadLine()!; 
-                                    var validValue = fieldValid[elementToEdit].DynamicInvoke(value);
-                                    collection.ToEdit(int.Parse(getId!),elementToEdit,validValue!);
-                                    collection.Rewrite(toReadFile);
-                                    break;
+                                    if (attribute == "ShippedDate")
+                                    {
+                                        var validValue = validFields[attribute].DynamicInvoke(value,
+                                            collection.Collection[validId].GetType().GetProperty("OrderDate"));
+                                        userProxy.Edit(validId, attribute, validValue!);
+                                    }
+                                    else
+                                    {
+                                        var validValue = validFields[attribute].DynamicInvoke(value);
+                                        userProxy.Edit(validId, attribute, validValue!);
+                                    }
+                                    
+                                    collection.Rewrite(pathToCollection);
                                 }
-                                else
+                                catch (ArgumentOutOfRangeException)
                                 {
-                                    Console.WriteLine("There is no such attribute\n");
+                                    Console.WriteLine("Incorrect id input!");
+                                }
+                                catch (Exception er)
+                                {
+                                    Console.WriteLine(er.InnerException?.Message);
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("Can't edit unexciting order by id " + getId + "\n");
+                                Console.WriteLine("Incorrect attribute name of element!");
                             }
+                            
                         }
-                        else
+                        else if (option == "8")
                         {
-                            Console.WriteLine($"{getId} have to be integer\n");
+                            goto Logging;
                         }
                     }
-                    catch(Exception er)
+                    else if (option == "5" && currentUser.Role == Roles.Customer)
                     {
-                        Console.WriteLine(er.InnerException?.Message);
-                    }
-                }
-            }
-            else if (inputNum == "5")
-            {
-                Console.WriteLine("Input element to sort by");
-                List<string> attributesName = collection.GetListOfPropertys();
-                while (true)
-                {
-                    
-                    Console.WriteLine("[Attribute]: ");
-                    string elementToSort = Console.ReadLine()!;
-                    if (attributesName.Contains(elementToSort))
-                    {
-                        collection.ToSort(elementToSort);
-                        Console.WriteLine("Sorted order collection is : \n");
-                        Console.WriteLine(collection);
-                        break;
+                        goto Logging;
                     }
                     else
                     {
-                        Console.WriteLine("There is no such attribute in class");
+                        Console.WriteLine("Invalid option try again!\n");
                     }
-                    
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
             }
-            else if (inputNum == "6")
-            {
-                Console.WriteLine("Order collection is : \n");
-                Console.WriteLine(collection);
-            }
-            else if (inputNum == "7")
-            {
-                break;
-            }
-        }*/
-    }
-
+        }
+    
     public static void Main(string[] args)
     {
         Menu();

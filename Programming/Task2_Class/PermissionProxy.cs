@@ -42,11 +42,11 @@ namespace Task2_Class
             }
         }
 
-        public T Edit(T student)
+        public T Edit(int getId, string attribute, object value)
         {
             if (user.Role == Roles.Admin)
             {
-                return userActions.Edit(student);
+                return userActions.Edit(getId,attribute,value);
             }
             else
             {
@@ -54,11 +54,11 @@ namespace Task2_Class
             }
         }
 
-        public void Delete(int id)
+        public T Delete(int id)
         {
             if (user.Role == Roles.Admin)
             {
-                userActions.Delete(id);
+                return userActions.Delete(id);
             }
             else
             {

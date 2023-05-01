@@ -9,7 +9,7 @@ public interface IUserAction<T> where T: class
     List<T> Search(string query);
     List<T> Sort(string sortBy);
     T Create(T student);
-    T Edit(T student);
-    void Delete(int id);
+    T Edit(int getId, string attribute, object value);
+    T Delete(int id);
 }
 

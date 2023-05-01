@@ -35,11 +35,6 @@ namespace Task2_Class
             ShippedDate = shippedDate;
             CustomerEmail = customerEmail;
         }
-
-        /*public override string ToString()
-        {
-            return $"ID: {ID}\nOrder Status: {OrderStatus}\nAmount: {Amount}\nDiscount: {Discount}\nOrder Date: {OrderDate}\nShipped Date: {ShippedDate}\nCustomer Email: {CustomerEmail}";
-        }*/
         public override string ToString()
         {
             string to_return = "";
