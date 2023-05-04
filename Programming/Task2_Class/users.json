@@ -19,5 +19,12 @@
     "Email": "one@gmail.com",
     "Role": "Customer",
     "Password": "12345678Aa@"
+  },
+  {
+    "FirstName": "Name",
+    "LastName": "LastName",
+    "Email": "asdasdas@asds.asd",
+    "Role": "Customer",
+    "Password": "12345678Aa@"
   }
 ]
