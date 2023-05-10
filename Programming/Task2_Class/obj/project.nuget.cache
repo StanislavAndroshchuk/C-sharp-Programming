@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "NBpr6N2tWXGJW7SixTeyD9CKa0LNP/QKTWgKTySb88N2egQDB3a2/S+hm4I6+LIvo2AYfDVVG4DKH+4JOQ95sQ==",
+  "success": true,
+  "projectFilePath": "C:\\GitHub\\Clone\\C-sharp-Programming\\Programming\\Task2_Class\\Task2_Class.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\newme\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

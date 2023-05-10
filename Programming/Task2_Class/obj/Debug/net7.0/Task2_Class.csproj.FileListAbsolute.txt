@@ -1,0 +1,17 @@
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Task2_Class.exe
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Task2_Class.deps.json
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Task2_Class.runtimeconfig.json
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Task2_Class.dll
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Task2_Class.pdb
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.csproj.AssemblyReference.cache
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.AssemblyInfoInputs.cache
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.AssemblyInfo.cs
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.csproj.CoreCompileInputs.cache
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.csproj.CopyComplete
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.dll
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\refint\Task2_Class.dll
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.pdb
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\Task2_Class.genruntimeconfig.cache
+C:\GitHub\Clone\C-sharp-Programming\Programming\Task2_Class\obj\Debug\net7.0\ref\Task2_Class.dll

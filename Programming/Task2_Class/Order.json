@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "OrderStatus": 2,
+    "Amount": 12,
+    "Discount": "5%",
+    "OrderDate": "2022-11-10",
+    "ShippedDate": "2023-10-11",
+    "CustomerEmail": "One@gmail.com",
+    "ReadedState": "Published"
+  },
+  {
+    "Id": 2,
+    "OrderStatus": 3,
+    "Amount": 19,
+    "Discount": "15%",
+    "OrderDate": "2012-12-12",
+    "ShippedDate": "2013-12-12",
+    "CustomerEmail": "asdasd@asdasd.asdasdadad",
+    "ReadedState": "Published"
+  },
+  {
+    "Id": 3,
+    "OrderStatus": 3,
+    "Amount": 12,
+    "Discount": "5%",
+    "OrderDate": "2012-12-12",
+    "ShippedDate": "2032-12-21",
+    "CustomerEmail": "one@gmail.com",
+    "ReadedState": "Draft"
+  },
+  {
+    "Id": 4,
+    "OrderStatus": 1,
+    "Amount": 101,
+    "Discount": "12%",
+    "OrderDate": "2012-12-12",
+    "ShippedDate": "2013-12-12",
+    "CustomerEmail": "asd@fasdas.asd",
+    "ReadedState": "Draft"
+  },
+  {
+    "Id": 5,
+    "OrderStatus": 1,
+    "Amount": 12312312,
+    "Discount": "12%",
+    "OrderDate": "2012-12-12",
+    "ShippedDate": "2013-12-12",
+    "CustomerEmail": "Two@gmail.com",
+    "ReadedState": "Draft"
+  },
+  {
+    "Id": 6,
+    "OrderStatus": 1,
+    "Amount": 12,
+    "Discount": "12%",
+    "OrderDate": "2022-12-12",
+    "ShippedDate": "2023-12-12",
+    "CustomerEmail": "email@gmail.com",
+    "ReadedState": "Draft"
+  },
+  {
+    "Id": 7,
+    "OrderStatus": 2,
+    "Amount": 12,
+    "Discount": "12%",
+    "OrderDate": "2022-12-12",
+    "ShippedDate": "2023-12-12",
+    "CustomerEmail": "email@gmail.com",
+    "ReadedState": "Published"
+  },
+  {
+    "Id": 8,
+    "OrderStatus": 1,
+    "Amount": 1,
+    "Discount": "12%",
+    "OrderDate": "2012-12-12",
+    "ShippedDate": "2013-12-12",
+    "CustomerEmail": "asdas@asdas.asdasd",
+    "ReadedState": "Draft"
+  },
+  {
+    "Id": 9,
+    "OrderStatus": 1,
+    "Amount": 12,
+    "Discount": "12%",
+    "OrderDate": "2022-12-12",
+    "ShippedDate": "2023-12-12",
+    "CustomerEmail": "asdasd@asdasd.sad",
+    "ReadedState": "Draft"
+  }
+]
