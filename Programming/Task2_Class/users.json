@@ -26,5 +26,12 @@
     "Email": "asdasdas@asds.asd",
     "Role": "Customer",
     "Password": "12345678Aa@"
+  },
+  {
+    "FirstName": "Bob",
+    "LastName": "Bib",
+    "Email": "manag@email.com",
+    "Role": "Manager",
+    "Password": "abc123"
   }
 ]

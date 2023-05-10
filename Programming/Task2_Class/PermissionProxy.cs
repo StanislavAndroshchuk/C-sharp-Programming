@@ -10,6 +10,11 @@ namespace Task2_Class
             this.user = user;
             this.userActions = userActions;
         }
+
+        public bool IsHavePermission()
+        {
+            return user.Role == Roles.Admin;
+        }
         public List<T> ViewList()
         {
             return userActions.ViewList();
@@ -32,37 +37,49 @@ namespace Task2_Class
 
         public T Create(T student)
         {
-            if (user.Role == Roles.Admin)
+            if (user.IsManager() || user.IsAdmin())
             {
                 return userActions.Create(student);
             }
             else
             {
-                throw new Exception("Only admin can handle this operation");
+                throw new Exception("Error: No permission!");
             }
         }
 
         public T Edit(int getId, string attribute, object value)
         {
-            if (user.Role == Roles.Admin)
+            if (user.IsManager() || user.IsAdmin())
             {
                 return userActions.Edit(getId,attribute,value);
             }
             else
             {
-                throw new Exception("Only admin can handle this operation");
+                throw new Exception("Error: No permission!");
             }
         }
 
         public T Delete(int id)
         {
-            if (user.Role == Roles.Admin)
+            if (user.IsAdmin())
             {
                 return userActions.Delete(id);
             }
             else
             {
-                throw new Exception("Only admin can handle this operation");
+                throw new Exception("Error: No permission!");
+            }
+        }
+
+        public void Publishing(int id)
+        {
+            if (user.IsManager() || user.IsAdmin())
+            {
+                userActions.Publishing(id);
+            }
+            else
+            {
+                throw new Exception("Error: No permission!");
             }
         }
     }

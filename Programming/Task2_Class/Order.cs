@@ -4,10 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace Task2_Class
 {
-    public class Order : IIdentifier, IValidators
+    public enum StatesEnum {Draft, Moderation, Published}
+    public class Order : IClassEntity
     {
         private int _id;
-        public int ID
+        public int Id
         {
             get => _id; 
             set { _id = value; }
@@ -19,21 +20,20 @@ namespace Task2_Class
         public DateOnly OrderDate { get; set; }
         public DateOnly ShippedDate { get; set; }
         public string CustomerEmail { get; set; }
-        
+        public StatesEnum ReadedState { get; set; }
         public Order()
         {
         }
-
-        [JsonConstructor]
-        public Order(int id, OrderTypes orderStatus, int amount, string discount, DateOnly orderDate, DateOnly shippedDate, string customerEmail)
-        {
-            ID = id;
+        public Order(int id, OrderTypes orderStatus, int amount, string discount,
+            DateOnly orderDate, DateOnly shippedDate, string customerEmail, StatesEnum state = StatesEnum.Draft){
+            Id = id;
             OrderStatus = orderStatus;
             Amount = amount;
             Discount = discount;
             OrderDate = orderDate;
             ShippedDate = shippedDate;
             CustomerEmail = customerEmail;
+            ReadedState = state;
         }
         public override string ToString()
         {
@@ -48,7 +48,7 @@ namespace Task2_Class
         {
             Dictionary<string, Delegate> fieldValid = new Dictionary<string, Delegate>
             {
-                {"ID", Validation.ValidPositiveInt},
+                {"Id", Validation.ValidPositiveInt},
                 {"OrderStatus", Validation.ValidOrder},
                 {"Amount", Validation.ValidPositiveInt},
                 {"Discount", Validation.ValidDiscount},
@@ -59,9 +59,9 @@ namespace Task2_Class
             return fieldValid;
 
         }
-
         public void ToWrite(int count)
         {
+            ReadedState = StatesEnum.Draft;
             Dictionary<string, Delegate> fieldValid;
             fieldValid = ToValidFields();
             foreach (var element in fieldValid)
@@ -74,14 +74,14 @@ namespace Task2_Class
                         Console.WriteLine("1 - Paid, 2 - NotPaid, 3 - Refunded-3");
                     }
 
-                    if (element.Key == "ID") 
+                    if (element.Key == "Id") 
                     {
                         Console.WriteLine($"{count+1}"); 
                     }
                     
                     try
                     {
-                        if (element.Key == "ID")
+                        if (element.Key == "Id")
                         {
                             this.GetType().GetProperty(element.Key)!.SetValue(this, count+1);
                             break;
@@ -107,6 +107,15 @@ namespace Task2_Class
             }
             
         }
-
+        private State _currentState => State.ConvertEnum(ReadedState, this);
+       
+        public void ChangeState(StatesEnum state)
+        {
+            ReadedState = state;
+        }
+        public void Publishing(User user)
+        {
+            _currentState.Publishing(user);
+        }
     }
 }

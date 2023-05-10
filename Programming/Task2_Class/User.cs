@@ -5,7 +5,8 @@ namespace Task2_Class
 {
     public enum Roles{
         Customer,
-        Admin
+        Admin,
+        Manager
     }
     public class User
     {
@@ -31,14 +32,27 @@ namespace Task2_Class
                    Role == default(Roles) &&
                    string.IsNullOrEmpty(Password);
         }
+
+        public bool IsAdmin()
+        {
+            return Role == Roles.Admin;
+        }
+        public bool IsManager()
+        {
+            return Role == Roles.Manager;
+        }
+        public bool IsCustomer()
+        {
+            return Role == Roles.Customer;
+        }
         public override string ToString()
         {
-            string to_return = "";
+            string toReturn = "";
             foreach (PropertyInfo x in this.GetType().GetProperties())
             {
-                to_return += x.Name + " - " + x.GetValue(this) + "\n"; 
+                toReturn += x.Name + " - " + x.GetValue(this) + "\n"; 
             }
-            return to_return;
+            return toReturn;
         }
     }
     

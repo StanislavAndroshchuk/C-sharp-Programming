@@ -1,30 +1,27 @@
-using System.Collections.ObjectModel;
+
 using System.Text.Json;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Task2_Class
 {
-    public interface IIdentifier
-    {
-        int ID { get; set; }
-    }
-
-    public interface IValidators
-    {
-        Dictionary<string, Delegate> ToValidFields();
-    }
-    public class OrderCollection<T> : IUserAction<T> where T: class, IIdentifier, IValidators, new()
+    public class OrderCollection<T> : IUserAction<T> where T: class, IClassEntity, new()
     {
         public List<T> Collection;
+        public User user { get; set; }
         public OrderCollection()
         {
             Collection = new List<T>();
-            
         }
         public T? this[int x]
         {
             get => Collection[x];
             set => Collection[x] = value!;
+        }
+
+        public bool IsHavePermission()
+        {
+            return false;
         }
         public int Count => Collection.Count;
         public override string ToString()
@@ -55,7 +52,7 @@ namespace Task2_Class
         {
             for (int i = 0; i < Collection.Count; i++)
             { 
-                if (getId == Collection[i].ID)
+                if (getId == Collection[i].Id)
                 {
                     return Collection[i];
                 }
@@ -70,15 +67,26 @@ namespace Task2_Class
         }
         public void Rewrite(string path)
         {
-            Collection = Collection.OrderBy(x => x.GetType().GetProperty("ID")?.GetValue(x)).ToList(); //s
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(Collection, options);
+            Collection = Collection.OrderBy(x => x.GetType().GetProperty("Id")?.GetValue(x)).ToList(); //s
+            var options = new JsonSerializerOptions { WriteIndented = true , Converters =
+            {
+                new StatesEnumConverter()
+            }};
+            string jsonString = JsonSerializer.Serialize(Collection,options);
     
             File.WriteAllText(path, jsonString);
         }
         public void ReadFromFile(string fileName)
         {
             string jsonString = File.ReadAllText(fileName);
+            
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new StatesEnumConverter()
+                }
+            };
             List<JsonElement>? data = JsonSerializer.Deserialize<List<JsonElement>>(jsonString);
             Dictionary<string, Delegate> fieldValid = GetValidFields();
             foreach (JsonElement element in data!)
@@ -86,8 +94,14 @@ namespace Task2_Class
                 bool passed = true;
                 
                 for (int i = 0; i < fieldValid.Count; i++)
-                {   
-                    
+                {
+                    if (user.IsCustomer())
+                    {
+                        if (element.GetProperty("ReadedState").ToString() != "Published")
+                        {
+                            passed = false;
+                        }
+                    }
                     try
                     {
                         string tempKey = fieldValid.Keys.ElementAt(i); // string?
@@ -114,7 +128,7 @@ namespace Task2_Class
                 
                 if (passed)
                 {
-                    T tempOrder = JsonSerializer.Deserialize<T>(element)!;
+                    T tempOrder = JsonSerializer.Deserialize<T>(element,options)!;
                     Collection.Add(tempOrder);
                 }
                 else
@@ -138,7 +152,7 @@ namespace Task2_Class
         }
         public T ViewById(int id)
         {
-            var toCheck = Collection.FirstOrDefault(s => s.ID == id);
+            var toCheck = Collection.FirstOrDefault(s => s.Id == id);
             if (toCheck != null)
             {
                 return toCheck;
@@ -208,15 +222,14 @@ namespace Task2_Class
             }
             
         }
-
         public T Create(T element)
         {
             Collection.Add(element);
             return element;
         }
-
         public T Edit(int getId, string attribute, object value)
         {
+            
             var classItem = FindById(getId);
             if (classItem != null)
             {
@@ -227,6 +240,7 @@ namespace Task2_Class
                     PropertyInfo? someProperty = classItem!.GetType().GetProperty(attribute);
                     object toSet = Convert.ChangeType(value, someProperty?.PropertyType!);
                     someProperty?.SetValue(classItem, toSet);
+                    classItem.ChangeState(StatesEnum.Draft);
                     return classItem;
                 }
                 else
@@ -238,9 +252,8 @@ namespace Task2_Class
             {
                 throw new Exception("There is no such element by this id");
             }
-            
-        }
 
+        }
         public T Delete(int id)
         {
             var deleteElement = FindById(id);
@@ -252,6 +265,11 @@ namespace Task2_Class
             }
 
             throw new Exception("There's no such element by id");
+        }
+        public void Publishing(int id)
+        {
+            T item = FindById(id);
+            item.Publishing(user);
         }
     }
 }

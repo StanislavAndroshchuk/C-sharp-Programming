@@ -27,6 +27,12 @@ public class LoggerProxy<T> : IUserAction<T> where T : class
             sw.WriteLine(logEntry);
         }
     }
+
+    public bool IsHavePermission()
+    {
+        var element = userActions.IsHavePermission();
+        return element;
+    }
     public void Logger(string action, object value)
     {
         var logEntry = new
@@ -115,5 +121,11 @@ public class LoggerProxy<T> : IUserAction<T> where T : class
         var element = userActions.Delete(id);
         Logger("Delete by id",id);
         return element;
+    }
+
+    public void Publishing(int id)
+    {
+        userActions.Publishing(id);
+        Logger("Publish by id",id);
     }
 }

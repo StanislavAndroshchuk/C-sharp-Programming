@@ -37,12 +37,12 @@ namespace Task2_Class
             {
                 return;
             }
-
+            collection.user = currentUser;
             collection.ReadFromFile(pathToCollection);
             LoggerProxy<Order> userProxy =
                 new LoggerProxy<Order>(currentUser, new PermissionProxy<Order>(currentUser, collection));
-            string option;
             Console.Clear();
+            string option;
             while (true)
             {
                 Console.WriteLine("\n---Menu---");
@@ -51,11 +51,13 @@ namespace Task2_Class
                 Console.WriteLine("3.Sort list");
                 Console.WriteLine("4.Search in list");
                 Console.WriteLine("5.Delete element in list");
-                    Console.WriteLine("6.Add element in list");
-                    Console.WriteLine("7.Edit element in list");
-                    Console.WriteLine("8.Sign out");
+                Console.WriteLine("6.Add element in list");
+                Console.WriteLine("7.Edit element in list");
+                Console.WriteLine("8.Publish");  
+                Console.WriteLine("9.Sign out");   
+                
 
-                    Console.Write("? : ");
+                Console.Write("? : ");
                 option = Console.ReadLine()!;
                 Console.Clear();
                 try
@@ -88,7 +90,7 @@ namespace Task2_Class
                         {
                             Console.WriteLine(element);
                         }
-                        
+
                     }
                     else if (option == "4")
                     {
@@ -101,6 +103,7 @@ namespace Task2_Class
                             Console.WriteLine(element);
                         }
                     }
+
                     if (option == "5")
                     {
                         Console.Write("Delete by id: ");
@@ -142,7 +145,7 @@ namespace Task2_Class
                                     var validValue = validFields[attribute].DynamicInvoke(value);
                                     userProxy.Edit(validId, attribute, validValue!);
                                 }
-                                
+
                                 collection.Rewrite(pathToCollection);
                             }
                             catch (ArgumentOutOfRangeException)
@@ -151,22 +154,34 @@ namespace Task2_Class
                             }
                             catch (Exception er)
                             {
-                                Console.WriteLine(er.InnerException?.Message);
+                                Console.WriteLine(er.Message);
                             }
                         }
                         else
                         {
                             Console.WriteLine("Incorrect attribute name of element!");
                         }
-                        
+
                     }
                     else if (option == "8")
                     {
-                        goto Logging;
+                        Console.Write("Id: ");
+                        string id = Console.ReadLine()!;
+                        int Id;
+                        try
+                        {
+                            Id = Validation.ValidPositiveInt(id);
+                            userProxy.Publishing(Id);
+                            collection.Rewrite(pathToCollection);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                     }
-                    else
+                    else if (option == "9")
                     {
-                        Console.WriteLine("Invalid option try again!\n");
+                        goto Logging;
                     }
 
                 }
@@ -174,6 +189,8 @@ namespace Task2_Class
                 {
                     Console.WriteLine(e.Message);
                 }
+                
+
             }
         }
     

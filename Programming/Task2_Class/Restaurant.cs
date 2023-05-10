@@ -2,33 +2,34 @@
 
 namespace Task2_Class
 {
-    public class Restaurant : IIdentifier, IValidators
+    public class Restaurant : IClassEntity
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int Workers { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
-        
+        public StatesEnum ReadedState { get; set; }
 
         public Restaurant()
         {
             
         }
 
-        public Restaurant(int id, int workers,string url, string name, DateTime date)
+        public Restaurant(int id, int workers,string url, string name, DateTime date, StatesEnum state = StatesEnum.Draft)
         {
-            ID = id;
+            Id = id;
             Workers = workers;
             Url = url;
             Title = name;
             Date = date;
+            ReadedState = state;
         }
         public Dictionary<string, Delegate> ToValidFields()
         {
             Dictionary<string, Delegate> fieldValid = new Dictionary<string, Delegate>
             {
-                {"ID", Validation.ValidPositiveInt},
+                {"Id", Validation.ValidPositiveInt},
                 {"Workers", Validation.ValidPositiveInt},
                 {"Url", Validation.ValidUrl},
                 {"Title", Validation.ValidString},
@@ -49,6 +50,7 @@ namespace Task2_Class
 
         public void ToWrite(int count)
         {
+            ReadedState = StatesEnum.Draft;
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
@@ -58,7 +60,16 @@ namespace Task2_Class
                 property.SetValue(this, value);
             }
         }
-        
+        private State _currentState => State.ConvertEnum(ReadedState, this);
+
+        public void ChangeState(StatesEnum state)
+        {
+            ReadedState = state;
+        }
+        public void Publishing(User user)
+        {
+            _currentState.Publishing(user);
+        }
     }
 }
 
