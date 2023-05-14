@@ -91,73 +91,7 @@ namespace Task3_Graph
             {
                 Console.WriteLine($"Error: Flight with ID {id} not found.");
             }
-        } 
-        /*public void EditFlightById(int id, string attribute, object value)
-    {
-        int i = 0;
-        while (true)
-        {
-            int id = Validate.ValidateItem<int>("id", Validate.CheckId);
-            string fieldName = AdditionalFun.IsFieldNameOfFlight();
-            
-            foreach (var kvp in _graph)
-            {
-                List<Flight> flights = kvp.Value;
-            
-                Flight flightToEdit = flights.FirstOrDefault(f => f.Id == id);
-
-                if (flightToEdit != null)
-                {
-                    PropertyInfo? property = typeof(Flight).GetProperty(fieldName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                    if (property == null && property?.Name == "Id")
-                    {
-                        Console.WriteLine("Invalid field name!");
-                    }
-                    else
-                    {
-                        i++;
-                        if(property.PropertyType == typeof(double))
-                        {
-                            double newValue = Validate.ValidateItem<double>("Price", Validate.CheckPrice);
-                            property.SetValue(flightToEdit, newValue);
-                            return;
-                        }
-                        else if (property.PropertyType == typeof(City))
-                        {
-                            City newValue = Validate.ValidateItem<City>("City (name of city or number from 0 to 6)", Validate.IsValidEnumValue<City>);
-                            property.SetValue(flightToEdit, newValue);
-                            return;
-                        }
-                        else if (property.PropertyType == typeof(Airline))
-                        {
-                            Airline newValue = Validate.ValidateItem<Airline>("Airline (name of airlane or number from 0 to 6)", Validate.IsValidEnumValue<Airline>);
-                            property.SetValue(flightToEdit, newValue);
-                            return;
-                        }
-                        else if(property.PropertyType == typeof(DateTime))
-                        {
-                            
-                            if (property.Name == "ArrivalDatetime")
-                            {
-                                DateTime newValue = Validate.IsDepartureBeforeArrival(flightToEdit.DepartureDatetime);
-                                property.SetValue(flightToEdit, newValue);
-                                return;
-                            }
-                            else
-                            {
-                                DateTime newValue = Validate.ValidateItem<DateTime>("DepartureDatetime", Validate.IsValidDateTimeString);
-                                property.SetValue(flightToEdit, newValue);
-                                return;
-                            }
-                        }
-                    }
-                }
-                
-            }
-            if(i==0) Console.WriteLine("There is not element with id - {0} .", id);
         }
-    }*/
-
         private Flight? FindById(int id)
         {
             foreach (var flightList in _graph.Values)
@@ -174,7 +108,6 @@ namespace Task3_Graph
 
             return null;
         }
-        
         public void FindCheapestFlight(City departureCity, City arrivalCity, DateTime date)
         {
             Flight cheapestFlight = null;
@@ -246,7 +179,6 @@ namespace Task3_Graph
                     $"There is no available flight from {departureCity} to {arrivalCity} on {date.ToShortDateString()}.");
             }
         }
-        
         private List<List<Flight>> FindRoutes(City departureCity, City arrivalCity, DateTime date, List<Flight> currentRoute = null, List<List<Flight>> routes = null)
         {
             if (currentRoute == null) currentRoute = new List<Flight>();
@@ -340,8 +272,6 @@ namespace Task3_Graph
                 Console.WriteLine($"Flight with ID {id} not found.");
             }
         }
-
-
         public void OutputAllFlights()
         {
             foreach (var kvp in _graph)
@@ -416,6 +346,280 @@ namespace Task3_Graph
                 }
             }
         }
+    }
+    public class GraphCollection2
+    {
+        // Ключ - місто відправлення, значення - словник, де ключ - країна прибуття, значення - список рейсів.
+        public Dictionary<City, Dictionary<Country, List<Flight>>> Flights;
+
+        public GraphCollection2()
+        {
+            Flights = new Dictionary<City, Dictionary<Country, List<Flight>>>();
+        }
+
+        public void AddFlight(Flight flight)
+        {
+            if (!Flights.ContainsKey(flight.DepartureCity))
+            {
+                Flights[flight.DepartureCity] = new Dictionary<Country, List<Flight>>();
+            }
+
+            if (!Flights[flight.DepartureCity].ContainsKey(flight.ArrivalCountry))
+            {
+                Flights[flight.DepartureCity][flight.ArrivalCountry] = new List<Flight>();
+            }
+
+            Flights[flight.DepartureCity][flight.ArrivalCountry].Add(flight);
+        }
+        public void ReadFromFile(string path)
+        {
+            string jsonString = File.ReadAllText(path);
+
+            var options = new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new EnumIgnoreCaseConverter<City>(),
+                    new EnumIgnoreCaseConverter<Airlines>(),
+                    new EnumIgnoreCaseConverter<Country>()
+                }
+            };
+            List<JsonElement>? data = JsonSerializer.Deserialize<List<JsonElement>>(jsonString, options);
+            Dictionary<string, Delegate> fieldValid = ValidDict.ToValidFields();
+            List<Flight> flights = new List<Flight>();
+            if (data != null)
+            {
+                foreach (JsonElement element in data)
+                {
+                    bool passed = true;
+                    for (int i = 0; i < fieldValid.Count; i++)
+                    {
+                        try
+                        {
+                            string tempKey = fieldValid.Keys.ElementAt(i);
+
+                            if (tempKey == "ArrivalDatetime")
+                            {
+                                fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString(),
+                                    element.GetProperty("DepartureDatetime").ToString());
+                            }
+                            else if(tempKey == "ArrivalCountry" && !Enum.TryParse<Country>(element.GetProperty(tempKey).ToString(), out _))
+                            {
+                                throw new Exception("Invalid country name in ArrivalCountry.");
+                            }
+                            else
+                            {
+                                fieldValid[tempKey].DynamicInvoke(element.GetProperty(tempKey).ToString());
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.InnerException?.Message);
+                            passed = false;
+                        }
+                    }
+
+                    if (passed)
+                    {
+                        Flight flight = JsonSerializer.Deserialize<Flight>(element.GetRawText(), options)!;
+                        flights.Add(flight);
+                        AddFlight(flight);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Previous flights had problems during validation.");
+                    }
+                }
+            }
+        }
+        public void OutputAllFlights()
+        {
+            foreach (var departurePair in Flights)
+            {
+                City departureCity = departurePair.Key;
+                Dictionary<Country, List<Flight>> countryToFlights = departurePair.Value;
+
+                Console.WriteLine("Departure City: {0}", departureCity);
+                Console.WriteLine("Available flights: ");
+
+                foreach (var countryFlightPair in countryToFlights)
+                {
+                    Country arrivalCountry = countryFlightPair.Key;
+                    List<Flight> flights = countryFlightPair.Value;
+
+                    Console.WriteLine("Arrival Country: {0}", arrivalCountry);
+
+                    foreach (var flight in flights)
+                    {
+                        Console.WriteLine(flight);
+                        Console.WriteLine();
+                    }
+                }
+            }
+        }
+        public void FindCheapestFlight(City departureCity, City arrivalCity, DateTime date)
+        {
+            List<List<Flight>> cheapestFlights = new List<List<Flight>>();
+            double cheapestPrice = double.MaxValue;
+
+            var allFlights = FindAllRoutes(departureCity, arrivalCity, date);
+
+            // Видаляємо маршрути, в яких час відправлення наступного рейсу раніше, ніж час прибуття попереднього плюс 1 година, або пізніше, ніж час прибуття попереднього плюс 7 годин.
+            var validFlights = allFlights.Where(flightPath =>
+            {
+                for (int i = 0; i < flightPath.Count - 1; i++)
+                {
+                    if (flightPath[i].ArrivalDatetime.AddHours(1) > flightPath[i + 1].DepartureDatetime || 
+                        flightPath[i].ArrivalDatetime.AddHours(7) < flightPath[i + 1].DepartureDatetime)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }).ToList();
+
+            foreach (var flightPath in validFlights)
+            {
+                double totalPrice = flightPath.Sum(flight => flight.Price);
+                if (totalPrice < cheapestPrice)
+                {
+                    cheapestPrice = totalPrice;
+                    cheapestFlights.Clear();
+                    cheapestFlights.Add(new List<Flight>(flightPath));
+                }
+                else if (totalPrice == cheapestPrice)
+                {
+                    cheapestFlights.Add(new List<Flight>(flightPath));
+                }
+            }
+
+            // Виводимо найдешевші рейси
+            if (cheapestFlights.Count > 0)
+            {
+                Console.WriteLine($"Cheapest flights from {departureCity} to {arrivalCity} on {date.ToShortDateString()} are: ");
+                foreach (var flightPath in cheapestFlights)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Flight path: ");
+                    foreach (var flight in flightPath)
+                    {
+                        Console.WriteLine(flight);
+                    }
+                    Console.WriteLine($"Total price: {flightPath.Sum(flight => flight.Price)}");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine($"There is no available flight from {departureCity} to {arrivalCity} on {date.ToShortDateString()}.");
+            }
+        }
+
+        private void FindAllRoutesDFS(City currentCity, City targetCity, DateTime date, List<Flight> currentRoute, List<List<Flight>> allRoutes)
+        {
+            if (currentCity == targetCity)
+            {
+                allRoutes.Add(new List<Flight>(currentRoute));
+                return;
+            }
+
+            if (!Flights.ContainsKey(currentCity))
+            {
+                return;
+            }
+
+            foreach (var nextFlight in Flights[currentCity].SelectMany(x => x.Value))
+            {
+                if (nextFlight.DepartureDatetime >= date && (currentRoute.Count == 0 || nextFlight.DepartureDatetime > currentRoute.Last().ArrivalDatetime))
+                {
+                    currentRoute.Add(nextFlight);
+                    FindAllRoutesDFS(nextFlight.ArrivalCity, targetCity, date, currentRoute, allRoutes);
+                    currentRoute.RemoveAt(currentRoute.Count - 1);
+                }
+            }
+        }
+
+        public List<List<Flight>> FindAllRoutes(City departureCity, City arrivalCity, DateTime date)
+        {
+            var allRoutes = new List<List<Flight>>();
+            FindAllRoutesDFS(departureCity, arrivalCity, date, new List<Flight>(), allRoutes);
+            return allRoutes;
+        }
+
+        private void FindRoutesDFS(City currentCity, City targetCity, DateTime date, List<Flight> currentPath, 
+            List<List<Flight>> allRoutes, HashSet<City> visitedCities, ref double cheapestPrice)
+        {
+            if (currentCity == targetCity)
+            {
+                double currentPrice = currentPath.Sum(flight => flight.Price);
+                if (currentPrice <= cheapestPrice)
+                {
+                    if (currentPrice < cheapestPrice)
+                    {
+                        allRoutes.Clear();
+                        cheapestPrice = currentPrice;
+                    }
+                    allRoutes.Add(new List<Flight>(currentPath));
+                }
+                return;
+            }
+
+            if (!Flights.ContainsKey(currentCity) || visitedCities.Contains(currentCity))
+            {
+                return;
+            }
+
+            visitedCities.Add(currentCity);
+            foreach (var countryFlightsPair in Flights[currentCity])
+            {
+                foreach (var flight in countryFlightsPair.Value)
+                {
+                    if (flight.DepartureDatetime.Date == date.Date)
+                    {
+                        currentPath.Add(flight);
+                        FindRoutesDFS(flight.ArrivalCity, targetCity, date, currentPath, allRoutes, visitedCities, ref cheapestPrice);
+                        currentPath.RemoveAt(currentPath.Count - 1);
+                    }
+                }
+            }
+            visitedCities.Remove(currentCity);
+        }
+        public void FindCheapestFlightsToCountry(City departureCity, Country arrivalCountry, DateTime date)
+        {
+            // Знайдіть всі міста в цільовій країні
+            var arrivalCities = Flights.Values
+                .SelectMany(countryToFlightsDict => countryToFlightsDict[arrivalCountry])
+                .Select(flight => flight.ArrivalCity)
+                .Distinct();
+
+            // Для кожного міста в цільовій країні знайдіть найдешевший рейс
+            foreach (var arrivalCity in arrivalCities)
+            {
+                Console.WriteLine($"Finding cheapest flights from {departureCity} to {arrivalCity} on {date.ToShortDateString()}:");
+                FindCheapestFlight(departureCity, arrivalCity, date);
+                Console.WriteLine();
+            }
+        }
+        public void FindCheapestFlightsForMonth(City departureCity, City arrivalCity, int year, int month)
+        {
+            int daysInMonth = DateTime.DaysInMonth(year, month);
+
+            for (int day = 1; day <= daysInMonth; day++)
+            {
+                DateTime date = new DateTime(year, month, day);
+                Console.WriteLine($"Finding cheapest flights on {date.ToShortDateString()}:");
+                FindCheapestFlight(departureCity, arrivalCity, date);
+                Console.WriteLine();
+            }
+        }
+
+
+
+    
+
+
+        // Інші методи...
     }
 }
 

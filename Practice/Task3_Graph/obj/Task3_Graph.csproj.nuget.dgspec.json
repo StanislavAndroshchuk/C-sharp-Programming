@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj": {}
+    "C:\\GitHub\\Clone\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj": {
+    "C:\\GitHub\\Clone\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj",
+        "projectUniqueName": "C:\\GitHub\\Clone\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj",
         "projectName": "Task3_Graph",
-        "projectPath": "C:\\GitHub\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj",
+        "projectPath": "C:\\GitHub\\Clone\\C-sharp-Programming\\Practice\\Task3_Graph\\Task3_Graph.csproj",
         "packagesPath": "C:\\Users\\newme\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\C-sharp-Programming\\Practice\\Task3_Graph\\obj\\",
+        "outputPath": "C:\\GitHub\\Clone\\C-sharp-Programming\\Practice\\Task3_Graph\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\newme\\AppData\\Roaming\\NuGet\\NuGet.Config",

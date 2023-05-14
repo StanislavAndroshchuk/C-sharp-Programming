@@ -5,7 +5,14 @@
         Paris,
         London,
         Kyiv,
-        Berlin
+        Berlin,
+        Hamburg,
+        Ternopil,
+        Marseille,
+        Manchester,
+        Washington,
+        Ohio,
+        Lviv
     }
 
     public enum Airlines
@@ -14,6 +21,14 @@
         TurkishAirlines,
         DeltaAir,
         AirFrance
+    }
+    public enum Country
+    {
+        France,
+        UK,
+        Ukraine,
+        Germany,
+        USA
     }
     
 }

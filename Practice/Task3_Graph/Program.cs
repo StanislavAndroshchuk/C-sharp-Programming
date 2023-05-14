@@ -6,12 +6,21 @@ namespace Task3_Graph
     {
         private static void Menu()
         {
-            string toReadFile = "../../../Flights.json";
-            GraphCollection collection = new GraphCollection();
+            string toReadFile = "../../../Flights2.json";
+            GraphCollection2 collection = new GraphCollection2();
             Dictionary<string, Delegate> fields = ValidDict.ToValidFields();
             bool menuContinue = true;
             bool readed = false;
-            while (menuContinue)
+            collection.ReadFromFile(toReadFile);
+            collection.OutputAllFlights();
+            City DepartureCity = City.Paris;
+            Country arivalCountry = Country.Germany;
+            City arivalcity = City.Berlin;
+            DateTime date = new DateTime(2023, 4, 7);
+            string time = date.ToString();
+            collection.FindCheapestFlightsToCountry(DepartureCity, arivalCountry, date);
+
+            /*while (menuContinue)
             {
                 Console.WriteLine(@"
 ----Menu----
@@ -176,7 +185,7 @@ Input
                     Console.WriteLine("Cant work with collection before reading from file");
                 }
                 
-            }
+            }*/
         }
 
         public static void Main(string[] args)
