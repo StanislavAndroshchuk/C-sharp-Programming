@@ -47,6 +47,112 @@ namespace Task3_Graph
             }
         }
     }
+    public class CityEnumConverter : JsonConverter<City>
+    {
+        public override City Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string value = reader.GetString();
+        
+            return value switch
+            {
+                "Paris" => City.Paris,
+                "London" => City.London,
+                "Kyiv" => City.Kyiv,
+                "Berlin" => City.Berlin,
+                "Hamburg" => City.Hamburg,
+                "Ternopil" => City.Ternopil,
+                "Marseille" => City.Marseille,
+                "Manchester" => City.Manchester,
+                "Washington" => City.Washington,
+                "Lviv" => City.Lviv,
+                "Ohio" => City.Ohio,
+                _ => throw new JsonException($"Value '{value}' is not valid for the 'StatesEnum' enum.")
+            };
+        }
+
+        public override void Write(Utf8JsonWriter writer, City value, JsonSerializerOptions options)
+        {
+            string stateStr = value switch
+            {
+                City.Paris => "Paris",
+                City.London => "London" ,
+                City.Kyiv => "Kyiv"  ,
+                City.Berlin => "Berlin" ,
+                City.Hamburg => "Hamburg",
+                City.Ternopil =>"Ternopil" ,
+                City.Marseille =>"Marseille" ,
+                City.Manchester => "Manchester" ,
+                City.Washington => "Washington",
+                City.Lviv =>"Lviv"  ,
+                City.Ohio =>"Ohio"  ,
+                _ => throw new JsonException($"Invalid state value: {value}")
+            };
+
+            writer.WriteStringValue(stateStr);
+        }
+    }
+    public class CountryEnumConverter : JsonConverter<Country>
+    {
+        public override Country Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string value = reader.GetString();
+        
+            return value switch
+            {
+                "France" => Country.France,
+                "UK" => Country.UK,
+                "Ukraine" => Country.Ukraine,
+                "Germany" => Country.Germany,
+                "USA" => Country.USA,
+                _ => throw new JsonException($"Value '{value}' is not valid for the 'StatesEnum' enum.")
+            };
+        }
+
+        public override void Write(Utf8JsonWriter writer, Country value, JsonSerializerOptions options)
+        {
+            string stateStr = value switch
+            {
+                Country.France => "France",
+                Country.UK => "UK",
+                Country.Ukraine => "Ukraine",
+                Country.Germany => "Germany",
+                Country.USA => "USA",
+                _ => throw new JsonException($"Invalid state value: {value}")
+            };
+
+            writer.WriteStringValue(stateStr);
+        }
+    }
+    public class AirlinesEnumConverter : JsonConverter<Airlines>
+    {
+        public override Airlines Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string value = reader.GetString();
+        
+            return value switch
+            {
+                "AmericanAir" => Airlines.AmericanAir,
+                "TurkishAirlines" => Airlines.TurkishAirlines,
+                "DeltaAir" => Airlines.DeltaAir,
+                "AirFrance" => Airlines.AirFrance,
+                _ => throw new JsonException($"Value '{value}' is not valid for the 'StatesEnum' enum.")
+            };
+        }
+
+        public override void Write(Utf8JsonWriter writer, Airlines value, JsonSerializerOptions options)
+        {
+            string stateStr = value switch
+            {
+                Airlines.AmericanAir => "AmericanAir",
+                Airlines.TurkishAirlines => "TurkishAirlines",
+                Airlines.DeltaAir => "DeltaAir",
+                Airlines.AirFrance => "AirFrance",
+                _ => throw new JsonException($"Invalid state value: {value}")
+            };
+
+            writer.WriteStringValue(stateStr);
+        }
+    }
 
 
 }

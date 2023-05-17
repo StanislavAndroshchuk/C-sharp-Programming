@@ -7,16 +7,19 @@
             Dictionary<string, Delegate> fieldValid = 
             new Dictionary<string, Delegate>
             {
-                {"DepartureCity", Validation.ValidateCity},
-                {"ArrivalCity", Validation.ValidateCity},
+                {"DepartureCity", Validation.IsValidCity},
+                {"ArrivalCity", Validation.IsValidCity},
                 {"DepartureDatetime", Validation.ValidDate},
                 {"ArrivalDatetime", Validation.ValidBothDate},
-                {"Airline", Validation.ValidateAirline},
-                {"Price", Validation.ValidPrice}
+                {"Airline", Validation.IsValidAirlines},
+                {"Price", Validation.ValidPrice},
+                {"ArrivalCountry",Validation.IsValidCountry},
+                {"DepartureCountry",Validation.IsValidCountry}
             };
             return fieldValid;
 
         }
+        
     }
 }
 

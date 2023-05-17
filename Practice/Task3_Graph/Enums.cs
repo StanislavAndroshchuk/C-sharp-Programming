@@ -1,5 +1,9 @@
-﻿namespace Task3_Graph
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace Task3_Graph
 {
+    
     public enum City
     {
         Paris,
@@ -14,7 +18,6 @@
         Ohio,
         Lviv
     }
-
     public enum Airlines
     {
         AmericanAir,

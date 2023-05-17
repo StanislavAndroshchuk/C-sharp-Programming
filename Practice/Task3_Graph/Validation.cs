@@ -14,7 +14,7 @@ namespace Task3_Graph
             }
             else
             {
-                throw new FormatException("Invalid date format.");
+                throw new Exception("Invalid date format.");
             }
         }
 
@@ -30,6 +30,20 @@ namespace Task3_Graph
             else
             {
                 throw new Exception("There is no such city");
+            }
+        }
+        public static Country ValidateCountry(string eEnumItem) 
+        {
+
+            if 
+                (Enum.TryParse(eEnumItem, out Country validCity))
+            {
+                
+                return validCity;
+            }
+            else
+            {
+                throw new Exception("There is no such country");
             }
         }
         public static bool ValidInt(string data)
@@ -71,7 +85,7 @@ namespace Task3_Graph
         {
             if (DateTime.TryParse(shippedDate, out DateTime result) && DateTime.TryParse(orderDate, out DateTime result2))
             {
-                if (result >= result2)
+                if (result > result2)
                 {
                     return result;
                 }
@@ -93,7 +107,14 @@ namespace Task3_Graph
             bool isNumeric = double.TryParse(price, NumberStyles.Any, culture, out double parsedPrice);
             if (isNumeric)
             {
-                return parsedPrice;
+                if (parsedPrice > 0)
+                {
+                    return parsedPrice;
+                }
+                else
+                {
+                    throw new Exception("Price have to be positive amount!");
+                }
             }
             else
             {
@@ -101,6 +122,70 @@ namespace Task3_Graph
             }
         }
 
+        public static int ValidPositiveInt(string amount)
+        {
+            if (int.TryParse(amount,out int result))
+            {
+                if (result >= 0)
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception($"{result} have to be positive!");
+                }
+            }
+            else
+            {
+                throw new Exception($"{result} have to be integer");
+            }
+        }
+        public static bool IsValidEnumValue<T>(string value) where T : struct, Enum
+        {
+            if (Enum.TryParse<T>(value, out var result) && Enum.IsDefined(typeof(T), result))
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Error: Incorrect enum value");
+                return false;
+            }
+        }
+
+        public static Country IsValidCountry(string value)
+        {
+            if (Enum.TryParse<Country>(value, out var result) && Enum.IsDefined(typeof(Country), result))
+            {
+                return result;
+            }
+            else
+            {
+                throw new Exception("Incorrect enum value");
+            }
+        }
+        public static City IsValidCity(string value)
+        {
+            if (Enum.TryParse<City>(value, out var result) && Enum.IsDefined(typeof(City), result))
+            {
+                return result;
+            }
+            else
+            {
+                throw new Exception("Incorrect enum value");
+            }
+        }
+        public static Airlines IsValidAirlines(string value)
+        {
+            if (Enum.TryParse<Airlines>(value, out var result) && Enum.IsDefined(typeof(Airlines), result))
+            {
+                return result;
+            }
+            else
+            {
+                throw new Exception("Incorrect enum value");
+            }
+        }
 
     }
 }
