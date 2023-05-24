@@ -1,0 +1,180 @@
+[
+  {
+    "action": "Get list",
+    "timestamp": "2023-05-24 15:43:39",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "List": [
+        {
+          "Id": 7,
+          "OrderStatus": 1,
+          "Amount": 13,
+          "Discount": 12,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 0
+        },
+        {
+          "Id": 8,
+          "OrderStatus": 2,
+          "Amount": 420,
+          "Discount": 21,
+          "OrderDate": "2023-03-28",
+          "ShippedDate": "2023-03-29",
+          "ReadedState": 0
+        },
+        {
+          "Id": 9,
+          "OrderStatus": 0,
+          "Amount": 113,
+          "Discount": 11,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 0
+        },
+        {
+          "Id": 10,
+          "OrderStatus": 1,
+          "Amount": 13,
+          "Discount": 12,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 2
+        },
+        {
+          "Id": 11,
+          "OrderStatus": 0,
+          "Amount": 10,
+          "Discount": 11,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 2
+        }
+      ],
+      "SearchQuery": null,
+      "SortQuery": null
+    }
+  },
+  {
+    "action": "Get list",
+    "timestamp": "2023-05-24 15:43:46",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "List": [
+        {
+          "Id": 7,
+          "OrderStatus": 1,
+          "Amount": 13,
+          "Discount": 12,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 0
+        },
+        {
+          "Id": 10,
+          "OrderStatus": 1,
+          "Amount": 13,
+          "Discount": 12,
+          "OrderDate": "2023-05-23",
+          "ShippedDate": "2023-05-24",
+          "ReadedState": 2
+        }
+      ],
+      "SearchQuery": "12",
+      "SortQuery": null
+    }
+  },
+  {
+    "action": "Get order by id",
+    "timestamp": "2023-05-24 15:45:12",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "Id": 11,
+      "OrderStatus": 0,
+      "Amount": 10,
+      "Discount": 11,
+      "OrderDate": "2023-05-23",
+      "ShippedDate": "2023-05-24",
+      "ReadedState": 2
+    }
+  },
+  {
+    "action": "Create new order",
+    "timestamp": "2023-05-24 15:45:58",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "Id": 12,
+      "OrderStatus": 2,
+      "Amount": 1,
+      "Discount": 99,
+      "OrderDate": "2023-07-23",
+      "ShippedDate": "2023-07-24",
+      "ReadedState": 0
+    }
+  },
+  {
+    "action": "Edit order by id",
+    "timestamp": "2023-05-24 15:48:14",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "Id": 11,
+      "Order": {
+        "Id": 11,
+        "OrderStatus": 0,
+        "Amount": 10,
+        "Discount": 70,
+        "OrderDate": "2023-05-23",
+        "ShippedDate": "2023-05-24",
+        "ReadedState": 0
+      }
+    }
+  },
+  {
+    "action": "Publish order by id",
+    "timestamp": "2023-05-24 15:48:46",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "admin@gmail.com",
+    "value": {
+      "Id": 12,
+      "Order": {
+        "Id": 12,
+        "OrderStatus": 2,
+        "Amount": 1,
+        "Discount": 99,
+        "OrderDate": "2023-07-23",
+        "ShippedDate": "2023-07-24",
+        "ReadedState": 2
+      }
+    }
+  },
+  {
+    "action": "Edit order by id",
+    "timestamp": "2023-05-24 15:51:28",
+    "userFirstName": "Stas",
+    "userLastName": "Andr",
+    "userEmail": "manager@gmail.com",
+    "value": {
+      "Id": 10,
+      "Order": {
+        "Id": 10,
+        "OrderStatus": 1,
+        "Amount": 13,
+        "Discount": 70,
+        "OrderDate": "2023-05-23",
+        "ShippedDate": "2023-05-24",
+        "ReadedState": 0
+      }
+    }
+  }
+]
