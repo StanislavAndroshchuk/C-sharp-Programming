@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-Task2_Class",
+      "appliesTo": "Programming/Task2_Class/",
+      "type": "launch"
+    }
+  ]
+}
