@@ -1,0 +1,278 @@
+﻿[
+  {
+    "Id" : 1,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 2,
+    "DepartureCity" : "London",
+    "DepartureCountry" : "UK",
+    "ArrivalCity" : "Berlin",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T22:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 100
+  },
+  {
+    "Id" : 3,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Berlin",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 4,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Hamburg",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 150
+  },
+  {
+    "Id" : 5,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Hamburg",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 200
+  },
+  {
+    "Id" : 6,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-04-07T11:00:00",
+    "ArrivalDatetime" : "2023-04-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 200
+  },
+  {
+    "Id" : 7,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-07-07T11:00:00",
+    "ArrivalDatetime" : "2023-07-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 150
+  },
+  {
+    "Id" : 8,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-05-07T11:00:00",
+    "ArrivalDatetime" : "2023-05-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 300
+  },
+  {
+    "Id" : 9,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Berlin",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-05-07T11:00:00",
+    "ArrivalDatetime" : "2023-05-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 150
+  },
+
+  {
+    "Id" : 10,
+    "DepartureCity" : "Berlin",
+    "DepartureCountry" : "Germany",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-05-07T15:00:00",
+    "ArrivalDatetime" : "2023-05-07T16:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 150
+  },
+  {
+    "Id" : 11,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-08-07T11:00:00",
+    "ArrivalDatetime" : "2023-08-07T12:00:00",
+    "Airline" : "DeltaAir",
+    "Price" : 150
+  },
+  {
+    "Id" : 12,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T15:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 13,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 77
+  },
+  {
+    "Id" : 14,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Berlin",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 15,
+    "DepartureCity" : "Berlin",
+    "DepartureCountry" : "Germany",
+    "ArrivalCity" : "London",
+    "ArrivalCountry" : "UK",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 37
+  },
+  {
+    "Id" : 16,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-07T13:00:00",
+    "ArrivalDatetime" : "2023-04-07T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 17,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-08T13:00:00",
+    "ArrivalDatetime" : "2023-04-08T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 18,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-09T13:00:00",
+    "ArrivalDatetime" : "2023-04-09T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 19,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "Paris",
+    "ArrivalCity" : "Lviv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-09T13:00:00",
+    "ArrivalDatetime" : "2023-04-09T15:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 20,
+    "DepartureCity" : "Lviv",
+    "DepartureCountry" : "Ukraine",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-09T17:00:00",
+    "ArrivalDatetime" : "2023-04-09T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 21,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "Paris",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-09T17:00:00",
+    "ArrivalDatetime" : "2023-04-09T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 22,
+    "DepartureCity" : "London",
+    "DepartureCountry" : "UK",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-19T17:00:00",
+    "ArrivalDatetime" : "2023-04-19T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 23,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-19T17:00:00",
+    "ArrivalDatetime" : "2023-04-19T23:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 200
+  },
+  {
+    "Id" : 24,
+    "DepartureCity" : "Paris",
+    "DepartureCountry" : "France",
+    "ArrivalCity" : "Berlin",
+    "ArrivalCountry" : "Germany",
+    "DepartureDatetime" : "2023-04-19T14:00:00",
+    "ArrivalDatetime" : "2023-04-19T15:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  },
+  {
+    "Id" : 25,
+    "DepartureCity" : "Berlin",
+    "DepartureCountry" : "Germany",
+    "ArrivalCity" : "Kyiv",
+    "ArrivalCountry" : "Ukraine",
+    "DepartureDatetime" : "2023-04-19T16:00:00",
+    "ArrivalDatetime" : "2023-04-19T18:00:00",
+    "Airline" : "TurkishAirlines",
+    "Price" : 100
+  }
+]
