@@ -1,0 +1,37 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "email@gmail.com",
+    "Role": "Admin",
+    "Password": "admin123"
+  },
+  {
+    "FirstName": "Stas",
+    "LastName": "Beb",
+    "Email": "example@gmail.com",
+    "Role": "Customer",
+    "Password": "hardpassword123"
+  },
+  {
+    "FirstName": "Stas",
+    "LastName": "Lol",
+    "Email": "one@gmail.com",
+    "Role": "Customer",
+    "Password": "12345678Aa@"
+  },
+  {
+    "FirstName": "Name",
+    "LastName": "LastName",
+    "Email": "asdasdas@asds.asd",
+    "Role": "Customer",
+    "Password": "12345678Aa@"
+  },
+  {
+    "FirstName": "Bob",
+    "LastName": "Bib",
+    "Email": "manag@email.com",
+    "Role": "Manager",
+    "Password": "abc123"
+  }
+]
